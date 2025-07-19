@@ -1,0 +1,118 @@
+<!doctype html>
+
+<head>
+    <title>Hadith</title>
+</head>
+
+<body id="top">
+    <div id="navbar-container"></div>
+
+    <main>
+        <header class="site-header notranslate">
+            <div class="section-overlay"></div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-12 text-center">
+                        <h1 class="text-white">Hadiths</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item"><a href="hadith.html">Hadith</a></li>
+                                <li class="breadcrumb-item"><a href="hadith.html" id="book-url"></a></li>
+                                <li class="breadcrumb-item active chapter-name" aria-current="page"></li>
+                            </ol>
+                        </nav>
+
+                        <div id="google_translate_element" class="mt-2 mb-0"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="container py-5">
+            <div class="chapter-card">
+                <h4 class="text-center text-primary chapter-name"></h4>
+                <span id="chapter-ayahs"></span>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/script.js"></script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ml,en,hi,ar',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            },
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        API_KEY = "$2y$10$B8yax3MxHEcXfplBYp94edFIjUBgKs05qwd08hZESA9C9NHtAwP6";
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bookSlug = new URLSearchParams(window.location.search).get("book");
+            const chapterNumber = new URLSearchParams(window.location.search).get("chapter");
+
+            const url = "https://www.hadithapi.com/api/hadiths?apiKey=api_key&book=book_slug&chapter=chapter_number&paginate=1000".replace("api_key", API_KEY)
+                .replace("chapter_number", chapterNumber).replace("book_slug", bookSlug);
+
+            document.querySelector("#book-url").href = `hadith-chapters.html?book=${bookSlug}`;
+
+            fetch(url)
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.status === 200) {
+                        const hadiths = response.hadiths.data;
+                        const book = hadiths[0].book;
+                        const chapter = hadiths[0].chapter;
+
+                        document.querySelector("#book-url").innerHTML = book.bookName;
+                        const elements = document.getElementsByClassName("chapter-name");
+                        for (let el of elements) {
+                            el.innerHTML = chapter.chapterNumber + " - " + chapter.chapterEnglish;
+                        }
+
+                        const chapterList = document.querySelector("#chapter-ayahs");
+                        hadiths.forEach((hadith) => {
+                            const hadithCard = document.createElement("div");
+                            hadithCard.className = "verse-card mb-2";
+
+                            let content = "";
+                            if (hadith.headingArabic) {
+                                content += `<h6 class="text-ar notranslate">${hadith.headingArabic}</h6> <h6>${hadith.headingEnglish}</h6>`;
+                            }
+
+                            content += `
+                                <div class="text-ar notranslate">
+                                    ${hadith.hadithArabic}
+                                    <span class="fst-italic">(${hadith.hadithNumber})</span>
+                                </div>
+                                <div class="text-en">${hadith.hadithEnglish || "<em>No translation available</em>"}</div>`;
+                            hadithCard.innerHTML = content;
+
+                            chapterList.appendChild(hadithCard);
+                        });
+                    }
+                })
+                .catch((err) => console.error("Error loading chapters:", err));
+        });
+    </script>
+</body>
+
+</html>

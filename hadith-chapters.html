@@ -1,7 +1,7 @@
 <!doctype html>
 
 <head>
-    <title>Qur’an</title>
+    <title>Hadith</title>
 </head>
 
 <body id="top">
@@ -14,11 +14,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">The Noble Qur'an</h1>
+                        <h1 class="text-white">Hadiths Books</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">The Noble Qur'an</li>
+                                <li class="breadcrumb-item"><a href="hadith.html">Hadith</a></li>
+                                <li class="breadcrumb-item active book-name" aria-current="page"></li>
                             </ol>
                         </nav>
                     </div>
@@ -28,15 +29,8 @@
 
         <section class="container py-5">
             <div class="chapter-card">
-                <h4 class="text-ar text-center text-primary">القرآن الكريم</h4>
-                <p class="text-center">
-                    The Qur’an is the final divine revelation sent to humanity through Prophet Muhammad ﷺ. It consists
-                    of 114 Surahs (chapters), each offering divine guidance, laws, morals, stories, and reflections for
-                    life. This sacred text has been preserved unchanged and continues to be a source of light and
-                    wisdom.
-                </p>
-
-                <ul class="chapter-list col-four"></ul>
+                <h4 class="text-center text-primary book-name"></h4>
+                <ul class="chapter-list col-two"></ul>
             </div>
         </section>
     </main>
@@ -51,21 +45,30 @@
     <script src="js/script.js"></script>
 
     <script>
+        API_KEY = "$2y$10$B8yax3MxHEcXfplBYp94edFIjUBgKs05qwd08hZESA9C9NHtAwP6";
+
         document.addEventListener("DOMContentLoaded", function () {
-            
-            fetch("https://api.alquran.cloud/v1/surah")
+            const bookSlug = new URLSearchParams(window.location.search).get("book");
+            const url = "https://www.hadithapi.com/api/book_slug/chapters?apiKey=api_key".replace("api_key", API_KEY).replace("book_slug", bookSlug);
+
+            const elements = document.getElementsByClassName("book-name");
+            for (let el of elements) {
+                el.innerHTML = bookSlug;
+            }
+
+            fetch(url)
                 .then((res) => res.json())
                 .then((response) => {
-                    if (response.code === 200) {
-                        const chapters = response.data;
+                    if (response.status === 200) {
+                        const chapters = response.chapters;
 
                         const chapterList = document.querySelector(".chapter-list");
                         chapters.forEach((chapter) => {
                             const chapterItem = document.createElement("a");
-                            chapterItem.href = `quran-view.html?chapter=${chapter.number}`;
+                            chapterItem.href = `hadith-view.html?book=${bookSlug}&chapter=${chapter.chapterNumber}`;
                             chapterItem.innerHTML = `
                                 <li class="mb-2">
-                                    ${chapter.number}. ${chapter.name}
+                                    ${chapter.chapterNumber}. ${chapter.chapterEnglish}
                                     <i class="bi bi-play-fill text-primary"></i>
                                 </li>
                             `;
