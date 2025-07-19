@@ -1,0 +1,86 @@
+<!doctype html>
+
+<head>
+    <title>Life of Muslim</title>
+</head>
+
+<body id="top">
+    <div id="navbar-container"></div>
+
+    <main>
+        <header class="site-header">
+            <div class="section-overlay"></div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-12 text-center">
+                        <h1 class="text-white">Life of Muslim</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Life of Muslim</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="container py-5">
+            <div class="row g-4">
+                <div class="col-lg-12 col-12 text-center">
+                    <h2>We deliver truth and wisdom</h2>
+                    <p>
+                        Guiding minds with clarity, inspiring lives with knowledge. Our mission is to enlighten,
+                        empower, and elevate through honest insights and timeless understandings.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row g-4" id="life-list"> </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            fetch("data/life.json")
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.length > 0) {
+                        const lifeList = document.getElementById("life-list");
+
+                        response.forEach((life) => {
+                            const lifeItem = document.createElement("div");
+                            lifeItem.className = "col-md-6 col-lg-3 col-12 d-flex";
+                            lifeItem.innerHTML = `
+                                <div class="card life-card w-100">
+                                    <h5 class="text-center text-primary mb-1">
+                                        ${life.title}
+                                    </h5>
+                                    <h6 class="card-text text-center mb-1">${life.desc}</h6>
+                                    <ul class="life-list mb-auto">
+                                        ${life.ml.map((item) => `<li style="font-size: 13px;">${item}</li>`).join("")}
+                                    </ul>
+                                    <a href="life-list.php?id=${life.id}" class="btn btn-read text-center">View More</a>
+                                </div>
+                            `;
+                            lifeList.appendChild(lifeItem);
+                        });
+                    }
+                })
+                .catch((err) => console.error("Error loading chapters:", err));
+        });
+    </script>
+</body>
+
+</html>

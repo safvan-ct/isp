@@ -1,0 +1,139 @@
+[
+    {
+        "title": "Education",
+        "desc": "What can be learned?",
+        "en": [
+            "What can be learned?",
+            "What to keep?"
+        ],
+        "ml": [
+            "എന്തൊക്കെ പഠിക്കാം?",
+            "എന്തൊക്കെ സൂക്ഷിക്കണം?"
+        ]
+    },
+    {
+        "title": "Life Style",
+        "desc": "What can be learned?",
+        "en": [
+            "Clothing (male, female)",
+            "Hair and beard cutting?",
+            "Vehicle",
+            "Insurance",
+            "How did the Prophet do it?"
+        ],
+        "ml": [
+            "വസ്ത്രം (ആണ്, പെൺ)",
+            "ഹെയർ ആൻഡ് beared കട്ടിങ്?",
+            "വാഹനം",
+            "ഇൻഷുറൻസ്"
+        ]
+    },
+    {
+        "title": "Marriage",
+        "desc": "What can be learned?",
+        "en": [
+            "Love",
+            "How to find partner?",
+            "What is mahr?",
+            "Dowry?",
+            "Wedding reception?",
+            "Other events?",
+            "7th month ceremony?",
+            "How did the Prophet do it?"
+        ],
+        "ml": [
+            "പ്രണയം",
+            "പങ്കാളിയെ എങ്ങനെ കണ്ടെത്താം?",
+            "എന്താണ് മഹർ?",
+            "സ്ത്രീധനം?",
+            "വിവാഹ സൽക്കാരം?",
+            "മറ്റുള്ള പരിപാടികൾ?",
+            "പ്രസവത്തിന് കൊണ്ട് പോകൽ?"
+        ]
+    },
+    {
+        "title": "Birth",
+        "desc": "What can be learned?",
+        "en": [
+            "What should I do when a child is born?",
+            "Performing the Aqiqah?",
+            "Weaving gold (boy, girl)?",
+            "Celebrating birthdays?",
+            "Education",
+            "How did the Prophet do it?"
+        ],
+        "ml": [
+            "കുട്ടി ജനിച്ചാൽ എന്തൊക്കെ ചെയ്യണം?",
+            "അഖീഖ അറക്കൽ?",
+            "കുട്ടിയെ കാണൽ?",
+            "സ്വർണം കെട്ടൽ (ആൺ, പെൺ)?",
+            "ജന്മദിനം ആഘോഷിക്കൽ?",
+            "വിദ്യാഭ്യാസം"
+        ]
+    },
+    {
+        "title": "Celebrations",
+        "desc": "What can be learned?",
+        "en": [
+            "What are the celebrations?",
+            "Eid Festivals?",
+            "Annual Offering or Yearly Vow Fulfillment?",
+            "Prophet's Day?",
+            "X-mas, Onam Vishu etc?",
+            "How did the Prophet do?"
+        ],
+        "ml": [
+            "എന്തൊക്കെ ആണ് ആഘോഷങ്ങൾ?",
+            "പെരുന്നാൾ?",
+            "ആണ്ട് നേർച്ചകൾ, നബിദിനം?",
+            "x-mas, ഓണം വിഷു etc?"
+        ]
+    },
+    {
+        "title": "Death",
+        "desc": "What can be learned?",
+        "en": [
+            "What should you do if a person dies?",
+            "Debt of the deceased?",
+            "Bathing the deceased?",
+            "Covering the grave?",
+            "Other rites?",
+            "Supplication (Dua) and recitation of the Quran for the deceased?",
+            "Performing 3, 7, 40, and year?",
+            "Mawlid recitation, food?",
+            "How did the Prophet do it?"
+        ],
+        "ml": [
+            "ഒരു മനുഷ്യൻ മരണപ്പെട്ടാൽ എന്ത് ചെയ്യണം?",
+            "മയ്യിത്തിന്റെ കടം?",
+            "മയ്യിത്ത്  കുളിപ്പിക്കൽ?",
+            "ഖബർ അടക്കൽ?",
+            "മറ്റുള്ള പരിപാടികൾ?",
+            "മയ്യിത്തിന് വേണ്ടി ദുആ, ഖുർആൻ പാരായണം ചെയ്യൽ?",
+            "3, 7, 40, ആണ്ട് എന്നിവ ഉണ്ടാക്കൽ?",
+            "മൗലിദ് പാരായണം, ഭക്ഷണം?"
+        ]
+    },
+    {
+        "title": "After Death",
+        "desc": "What can be learned?",
+        "en": [
+            "Life in the grave?",
+            "Questions in the grave?",
+            "Punishments in the grave?",
+            "Mahshara",
+            "The Trial",
+            "Heaven",
+            "The Hell"
+        ],
+        "ml": [
+            "ഖബർ ജീവിതം?",
+            "ഖബറിലെ ചോദ്യങ്ങൾ?",
+            "ഖബറിലെ ശിക്ഷകൾ?",
+            "മഹ്ഷറ",
+            "വിചാരണ",
+            "സ്വർഗ്ഗം",
+            "നരകം"
+        ]
+    }
+]
