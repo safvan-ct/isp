@@ -1,0 +1,123 @@
+<!doctype html>
+
+<head>
+    <title>Muslim</title>
+</head>
+
+<body id="top">
+    <div id="navbar-container"></div>
+
+    <main>
+        <header class="site-header">
+            <div class="section-overlay"></div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-12 text-center">
+                        <h1 class="text-white">The Noble Qur'an</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">The Noble Qur'an</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <section class="container py-5">
+            <div class="chapter-card">
+                <h4 class="text-ar text-center text-primary" id="chapter-title-ar"></h4>
+                <h5 class="text-center" id="chapter-title-en"></h5>
+                <span id="chapter-ayahs"></span>
+            </div>
+        </section>
+
+
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const chapterId = new URLSearchParams(window.location.search).get("chapter");
+
+            const translationUrls = {
+                tr: `https://api.alquran.cloud/v1/surah/${chapterId}/ml.abdulhameed`, // ml.abdulhameed, en.asad, hi.hindi
+                ar: `https://api.alquran.cloud/v1/surah/${chapterId}`,
+            };
+
+            const getTranslations = async (url) => {
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data.code === 200) {
+                        return data.data.ayahs;
+                    }
+                } catch (err) {
+                    console.error("Translation load error:", err);
+                }
+                return []; // fallback
+            };
+
+            const getChapterDetails = async (url) => {
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data.code === 200) {
+                        return data.data;
+                    }
+                } catch (err) {
+                    console.error("Chapter load error:", err);
+                }
+                return null; // fallback
+            };
+
+            const renderChapter = async () => {
+                const [translations, chapterData] = await Promise.all([
+                    getTranslations(translationUrls.tr),
+                    getChapterDetails(translationUrls.ar),
+                ]);
+
+                if (!chapterData) return;
+
+                // Title Setup
+                document.getElementById("chapter-title-ar").textContent = chapterData.name;
+                document.getElementById("chapter-title-en").textContent = `${chapterData.englishName} (${chapterData.englishNameTranslation})`;
+
+                // Ayahs Rendering
+                const ayahsContainer = document.getElementById("chapter-ayahs");
+                ayahsContainer.innerHTML = ""; // clear if needed
+
+                chapterData.ayahs.forEach((ayah) => {
+                    const translation = translations.find((a) => a.numberInSurah === ayah.numberInSurah);
+
+                    const ayahCard = document.createElement("div");
+                    ayahCard.className = "verse-card mb-2";
+                    ayahCard.innerHTML = `
+                            <div class="text-ar">
+                                ${ayah.text}
+                                <span class="fst-italic">(${ayah.numberInSurah})</span>
+                            </div>
+                            <div class="text-en">${translation?.text || "<em>No Malayalam translation available</em>"}</div>
+                        `;
+                    ayahsContainer.appendChild(ayahCard);
+                });
+            };
+
+            renderChapter();
+        });
+    </script>
+
+</body>
+
+</html>

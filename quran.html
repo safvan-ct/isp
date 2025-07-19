@@ -1,0 +1,81 @@
+<!doctype html>
+
+<head>
+    <title>Muslim</title>
+</head>
+
+<body id="top">
+    <div id="navbar-container"></div>
+
+    <main>
+        <header class="site-header">
+            <div class="section-overlay"></div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-12 text-center">
+                        <h1 class="text-white">The Noble Qur'an</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">The Noble Qur'an</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="container py-5">
+            <div class="chapter-card">
+                <h4 class="text-ar text-center text-primary">القرآن الكريم</h4>
+                <p class="text-center">
+                    The Qur’an is the final divine revelation sent to humanity through Prophet Muhammad ﷺ. It consists
+                    of 114 Surahs (chapters), each offering divine guidance, laws, morals, stories, and reflections for
+                    life. This sacred text has been preserved unchanged and continues to be a source of light and
+                    wisdom.
+                </p>
+
+                <ul class="chapter-list col-four"></ul>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            fetch("https://api.alquran.cloud/v1/surah")
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.code === 200) {
+                        const chapters = response.data;
+
+                        const chapterList = document.querySelector(".chapter-list");
+                        chapters.forEach((chapter) => {
+                            const chapterItem = document.createElement("a");
+                            chapterItem.href = `quran-view.html?chapter=${chapter.number}`;
+                            chapterItem.innerHTML = `
+                                <li class="mb-2">
+                                    ${chapter.number}. ${chapter.name}
+                                    <i class="bi bi-play-fill text-primary"></i>
+                                </li>
+                            `;
+                            chapterList.appendChild(chapterItem);
+                        });
+                    }
+                })
+                .catch((err) => console.error("Error loading chapters:", err));
+        });
+    </script>
+</body>
+
+</html>

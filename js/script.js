@@ -14,7 +14,7 @@ fetch("layouts/nav.html")
 
 		// Highlight the active link
 		const currentPage = location.pathname.split("/").pop();
-		const cleanedPage = currentPage.replace("-qa", "");
+		const cleanedPage = currentPage.replace("-view", "");
 
 		const navLinks = document.querySelectorAll(".nav-link");
 		navLinks.forEach((link) => {
