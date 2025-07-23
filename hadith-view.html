@@ -71,6 +71,7 @@
 
     <script>
         API_KEY = "$2y$10$B8yax3MxHEcXfplBYp94edFIjUBgKs05qwd08hZESA9C9NHtAwP6";
+        CHAPTER_NUMBER = '';
 
         document.addEventListener("DOMContentLoaded", function () {
             const bookSlug = new URLSearchParams(window.location.search).get("book");
@@ -139,13 +140,14 @@
                         for (let el of elements) {
                             el.innerHTML = chapter.chapterNumber + " - " + chapter.chapterEnglish;
                         }
+                        CHAPTER_NUMBER = chapter.chapterNumber;
 
                         const chapterList = document.querySelector("#chapter-ayahs");
-                        hadiths.forEach((hadith) => {
+                        hadiths.forEach((hadith, index) => {
                             const hadithCard = document.createElement("div");
                             hadithCard.className = "verse-card mb-2";
 
-                            let content = "";
+                            let content = `<div class="text-ar notranslate"><strong>${hadith.hadithNumber}</strong> - Status: <i>${hadith.status}</i></div> `;
                             if (hadith.headingArabic) {
                                 content += `<h6 class="text-ar notranslate">${hadith.headingArabic}</h6> <h6>${hadith.headingEnglish}</h6>`;
                             }
@@ -153,7 +155,7 @@
                             content += `
                                 <div class="text-ar notranslate">
                                     ${hadith.hadithArabic}
-                                    <span class="fst-italic">(${hadith.hadithNumber})</span>
+                                    <span class="fst-italic">(${index + 1})</span>
                                 </div>
                                 <div class="text-en">${hadith.hadithEnglish || "<em>No translation available</em>"}</div>`;
                             hadithCard.innerHTML = content;
@@ -172,7 +174,7 @@
             const hadithNumber = document.querySelector("input").value;
 
             if (hadithNumber < 1) {
-                alert("Invalid hadith number. Please try again.");
+                window.location.href = `hadith-view.html?book=${bookSlug}&chapter=${CHAPTER_NUMBER}`;
                 return;
             }
 
