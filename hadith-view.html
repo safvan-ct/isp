@@ -135,15 +135,15 @@
                         const book = hadiths[0].book;
                         const chapter = hadiths[0].chapter;
 
-                        document.querySelector("#book-url").innerHTML = book.bookName;
-                        const elements = document.getElementsByClassName("chapter-name");
-                        for (let el of elements) {
-                            el.innerHTML = chapter.chapterNumber + " - " + chapter.chapterEnglish;
-                        }
-                        CHAPTER_NUMBER = chapter.chapterNumber;
-
+                        let startOfHadith = '';
+                        let endOfHadith = '';
                         const chapterList = document.querySelector("#chapter-ayahs");
                         hadiths.forEach((hadith, index) => {
+                            if (index === 0) {
+                                startOfHadith = hadith.hadithNumber;
+                            }
+                            endOfHadith = hadith.hadithNumber;
+
                             const hadithCard = document.createElement("div");
                             hadithCard.className = "verse-card mb-2";
 
@@ -162,6 +162,18 @@
 
                             chapterList.appendChild(hadithCard);
                         });
+
+                        let html = chapter.chapterNumber + " - " + chapter.chapterEnglish;
+                        if (!hadithNumber) {
+                            html += ` (${startOfHadith}-${endOfHadith})`;
+                        }
+
+                        document.querySelector("#book-url").innerHTML = book.bookName;
+                        const elements = document.getElementsByClassName("chapter-name");
+                        for (let el of elements) {
+                            el.innerHTML = html;
+                        }
+                        CHAPTER_NUMBER = chapter.chapterNumber;
                     } else {
                         alert("Invalid hadith number. Please try again.");
                     }
