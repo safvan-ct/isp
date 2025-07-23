@@ -24,6 +24,13 @@
                             </ol>
                         </nav>
 
+                        <div class="input-group mt-2">
+                            <input type="number" class="form-control" min="1" placeholder="Search hadith by number..."
+                                id="hadith-number" />
+                            <button type="button" class="btn btn-primary" onclick="searchHadithByNumber()">Go
+                                To</button>
+                        </div>
+
                         <div id="google_translate_element" class="mt-2 mb-0"></div>
                     </div>
                 </div>
@@ -68,9 +75,54 @@
         document.addEventListener("DOMContentLoaded", function () {
             const bookSlug = new URLSearchParams(window.location.search).get("book");
             const chapterNumber = new URLSearchParams(window.location.search).get("chapter");
+            const hadithNumber = new URLSearchParams(window.location.search).get("hadith");
+            const input = document.getElementById("hadith-number");
 
-            const url = "https://www.hadithapi.com/api/hadiths?apiKey=api_key&book=book_slug&chapter=chapter_number&paginate=1000".replace("api_key", API_KEY)
-                .replace("chapter_number", chapterNumber).replace("book_slug", bookSlug);
+            switch (bookSlug) {
+                case "sahih-bukhari":
+                case "sahih-muslim":
+                    input.setAttribute("max", "7563");
+                    input.placeholder = "Search hadith by number (1-7563)";
+                    break;
+                case "al-tirmidh":
+                    input.setAttribute("max", "3955");
+                    input.placeholder = "Search hadith by number (1-3955)";
+                    break;
+                case "abu-dawood":
+                    input.setAttribute("max", "5274");
+                    input.placeholder = "Search hadith by number (1-5274)";
+                    break;
+                case "ibn-e-majah":
+                    input.setAttribute("max", "4341");
+                    input.placeholder = "Search hadith by number (1-4341)";
+                    break;
+                case "sunan-nasai":
+                    input.setAttribute("max", "5761");
+                    input.placeholder = "Search hadith by number (1-5761)";
+                    break;
+                case "mishkat":
+                    input.setAttribute("max", "6294");
+                    input.placeholder = "Search hadith by number (1-6294)";
+                    break;
+                default:
+                    input.placeholder = "Search hadith by number....";
+                    return;
+            }
+
+            let url = "https://www.hadithapi.com/api/hadiths?apiKey=api_key".replace("api_key", API_KEY);
+
+            if (bookSlug) {
+                url += "&book=" + bookSlug;
+            }
+
+            if (chapterNumber) {
+                url += "&chapter=" + chapterNumber;
+            }
+
+            if (hadithNumber) {
+                input.value = hadithNumber;
+                url += "&hadithNumber=" + hadithNumber;
+            }
 
             document.querySelector("#book-url").href = `hadith-chapters.html?book=${bookSlug}`;
 
@@ -108,10 +160,24 @@
 
                             chapterList.appendChild(hadithCard);
                         });
+                    } else {
+                        alert("Invalid hadith number. Please try again.");
                     }
                 })
                 .catch((err) => console.error("Error loading chapters:", err));
         });
+
+        function searchHadithByNumber() {
+            const bookSlug = new URLSearchParams(window.location.search).get("book");
+            const hadithNumber = document.querySelector("input").value;
+
+            if (hadithNumber < 1) {
+                alert("Invalid hadith number. Please try again.");
+                return;
+            }
+
+            window.location.href = `hadith-view.html?book=${bookSlug}&hadith=${hadithNumber}`;
+        }
     </script>
 </body>
 
