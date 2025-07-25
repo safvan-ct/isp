@@ -1,7 +1,9 @@
 [
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "Education",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "What can be learned?",
             "What to keep?"
@@ -12,8 +14,10 @@
         ]
     },
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "Life Style",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "Clothing (male, female)",
             "Hair and beard cutting?",
@@ -29,8 +33,10 @@
         ]
     },
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "Marriage",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "Love",
             "How to find partner?",
@@ -52,8 +58,10 @@
         ]
     },
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "Birth",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "What should I do when a child is born?",
             "Performing the Aqiqah?",
@@ -72,8 +80,10 @@
         ]
     },
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "Celebrations",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "What are the celebrations?",
             "Eid Festivals?",
@@ -90,8 +100,10 @@
         ]
     },
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "Death",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "What should you do if a person dies?",
             "Debt of the deceased?",
@@ -115,8 +127,10 @@
         ]
     },
     {
+        "id": 6,
+        "icon": "🧬",
         "title": "After Death",
-        "desc": "What can be learned?",
+        "ml_title": "test",
         "en": [
             "Life in the grave?",
             "Questions in the grave?",

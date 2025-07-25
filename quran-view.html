@@ -1,49 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="ml">
 
 <head>
-    <title>Qur’an</title>
+    <span id="headContainer"></span>
 </head>
 
-<body id="top">
-    <div id="navbar-container"></div>
+<body>
+    <span id="navbarContainer"></span>
 
-    <main>
-        <header class="site-header">
-            <div class="section-overlay"></div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">The Noble Qur'an</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item"><a href="quran.html">Qur’an</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">The Noble Qur'an</li>
-                            </ol>
-                        </nav>
-                    </div>
+    <section class="container py-3">
+        <div class="chapter-card">
+            <div class="surah-header">
+                <div class="surah-name"></div>
+                <div>Surah Number: <strong id="surah-number"></strong> | Total Ayahs: <strong id="total-ayahs"></strong>
                 </div>
             </div>
-        </header>
 
-        <section class="container py-5">
-            <div class="chapter-card">
-                <h4 class="text-ar text-center text-primary" id="chapter-title-ar"></h4>
-                <h5 class="text-center" id="chapter-title-en"></h5>
-                <span id="chapter-ayahs"></span>
-            </div>
-        </section>
-    </main>
+            <span id="chapter-ayahs"></span>
+        </div>
+    </section>
 
-    <div id="footer-container"></div>
+    <span id="footerContainer"></span>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/counter.js"></script>
-    <script src="js/custom.js"></script>
-    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/custom.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -89,8 +69,9 @@
                 if (!chapterData) return;
 
                 // Title Setup
-                document.getElementById("chapter-title-ar").textContent = chapterData.name;
-                document.getElementById("chapter-title-en").textContent = `${chapterData.englishName} (${chapterData.englishNameTranslation})`;
+                document.querySelector(".surah-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
+                document.getElementById("surah-number").textContent = toArabicNumber(chapterData.number);
+                document.getElementById("total-ayahs").textContent = toArabicNumber(chapterData.numberOfAyahs);
 
                 // Ayahs Rendering
                 const ayahsContainer = document.getElementById("chapter-ayahs");
@@ -100,13 +81,13 @@
                     const translation = translations.find((a) => a.numberInSurah === ayah.numberInSurah);
 
                     const ayahCard = document.createElement("div");
-                    ayahCard.className = "verse-card mb-2";
+                    ayahCard.className = "ayah-card";
                     ayahCard.innerHTML = `
-                            <div class="text-ar">
+                            <div class="ayah-arabic">
                                 ${ayah.text}
-                                <span class="fst-italic">(${ayah.numberInSurah})</span>
+                                <span class="ayah-number-ar">${toArabicNumber(ayah.numberInSurah)}</span>
                             </div>
-                            <div class="text-en">${translation?.text || "<em>No Malayalam translation available</em>"}</div>
+                            <div class="ayah-translation">${translation?.text || "<em>No Malayalam translation available</em>"}</div>
                         `;
                     ayahsContainer.appendChild(ayahCard);
                 });
@@ -114,6 +95,11 @@
 
             renderChapter();
         });
+
+        function toArabicNumber(number) {
+            const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return String(number).split('').map(d => arabicDigits[d]).join('');
+        }
     </script>
 
 </body>

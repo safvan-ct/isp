@@ -1,5 +1,5 @@
 // Include the head
-fetch("../head.html")
+fetch("partials/head.html")
 	.then((res) => res.text())
 	.then((data) => {
 		document.getElementById("headContainer").innerHTML = data;
@@ -7,15 +7,15 @@ fetch("../head.html")
 	.catch((err) => console.error("Error loading head:", err));
 
 // Include the navbar
-fetch("../navbar.html")
+fetch("partials/navbar.html")
 	.then((res) => res.text())
 	.then((data) => {
 		document.getElementById("navbarContainer").innerHTML = data;
 
 		// Highlight the active link
 		const currentPage = location.pathname.split("/").pop();
-		const cleanedPage = currentPage.replace(/-.*$/, "");
-		const route = cleanedPage == "death" ? "life" : cleanedPage;
+		const cleanedPage = currentPage.replace(/-.*$/, "").replace(".html", "");
+		const route = cleanedPage === "index" || cleanedPage === "" ? "home" : cleanedPage;
 
 		const navLinks = document.querySelectorAll(".nav-link");
 		navLinks.forEach((link) => {
@@ -29,7 +29,7 @@ fetch("../navbar.html")
 	.catch((err) => console.error("Error loading navbar:", err));
 
 // Include the footer
-fetch("../footer.html")
+fetch("partials/footer.html")
 	.then((res) => res.text())
 	.then((data) => {
 		document.getElementById("footerContainer").innerHTML = data;

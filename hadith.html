@@ -1,44 +1,20 @@
-<!doctype html>
+<html lang="ml">
 
 <head>
-    <title>Hadith</title>
+    <span id="headContainer"></span>
 </head>
 
-<body id="top">
-    <div id="navbar-container"></div>
+<body>
+    <span id="navbarContainer"></span>
 
-    <main>
-        <header class="site-header">
-            <div class="section-overlay"></div>
+    <section class="container py-5">
+        <div id="hadiths-list" class="row g-4"></div>
+    </section>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-12 text-center">
-                        <h1 class="text-white">Hadiths Books</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Hadiths Books</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </header>
+    <span id="footerContainer"></span>
 
-        <section class="container py-5">
-            <div id="hadiths-list" class="row g-4"></div>
-        </section>
-    </main>
-
-    <div id="footer-container"></div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/counter.js"></script>
-    <script src="js/custom.js"></script>
-    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/custom.js"></script>
 
     <script>
         API_KEY = "$2y$10$B8yax3MxHEcXfplBYp94edFIjUBgKs05qwd08hZESA9C9NHtAwP6";
@@ -56,23 +32,28 @@
                         books.forEach((book) => {
                             if (book.hadiths_count == 0) return;
                             const hadithItem = document.createElement("div");
-                            hadithItem.className = "col-lg-3 col-md-6 col-12 d-flex";
-                            hadithItem.innerHTML = `                        
-                                <div class="hadith-card d-flex flex-column w-100">
-                                    <h5 class="text-ar text-center text-primary">${book.bookName}</h5>
-                                    <h6 class="text-center">${book.bookSlug}</h6>
-                                    <p class="author text-center fst-italic">${book.writerName} - ${book.writerDeath}</p>
-                                    <p class="description text-center">
-                                        <span class="text-primary fw-bold">${book.hadiths_count}</span> Hadiths | 
-                                        <span class="text-primary fw-bold">${book.chapters_count}</span> Chapters 
-                                    </p>
+                            hadithItem.className = "col-lg-3 col-md-6 col-12 mb-4";
 
-                                    <div class="mt-auto text-center pt-3">
-                                        <a href="hadith-chapters.html?book=${book.bookSlug}" class="btn custom-btn rounded-pill">
-                                            View Chapters
-                                        </a>
-                                    </div>
-                                </div>`;
+                            hadithItem.innerHTML = `
+  <div class="hadith-book-card p-4 text-white d-flex flex-column justify-content-between h-100">
+    <div>
+      <div class="small text-uppercase text-light opacity-75 mb-1">${book.bookSlug}</div>
+      <h4 class="book-title fw-bold">${book.bookName}</h4>
+      <div class="author small mt-2">${book.writerName} <span class="opacity-75">(${book.writerDeath})</span></div>
+    </div>
+
+    <div class="mt-4">
+      <div class="d-flex justify-content-between small mb-3">
+        <span class="badge bg-light text-dark">${book.hadiths_count} Hadiths</span>
+        <span class="badge bg-light text-dark">${book.chapters_count} Chapters</span>
+      </div>
+      <a href="hadith-chapters.html?book=${book.bookSlug}" class="btn btn-light w-100 fw-bold">
+        View Chapters
+      </a>
+    </div>
+  </div>
+`;
+
                             hadithsList.appendChild(hadithItem);
                         });
                     }
