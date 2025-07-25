@@ -334,7 +334,7 @@ ul.step-list li {
 }
 
 .hadith-book-card {
-    background: linear-gradient(135deg, #4E2D45, #2c1b2c);
+    background: linear-gradient(135deg, #c2a162, #8d7444);
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease;
