@@ -59,7 +59,7 @@
                     if (response.length > 0) {
                         const lifeList = document.getElementById("life-list");
 
-                        response.forEach((life) => {
+                        response.forEach((life, index) => {
                             const lifeItem = document.createElement("div");
                             lifeItem.className = "col-md-6 col-lg-3 col-12 d-flex";
                             lifeItem.innerHTML = `
@@ -71,7 +71,7 @@
                                     <ul class="life-list mb-auto">
                                         ${life.ml.map((item) => `<li style="font-size: 13px;">${item}</li>`).join("")}
                                     </ul>
-                                    <a href="components/death/list.html" class="btn btn-read text-center">View More</a>
+                                    <a href="components/death/life-list.html?id=${index + 1}" class="btn btn-read text-center">View More</a>
                                 </div>
                             `;
                             lifeList.appendChild(lifeItem);
