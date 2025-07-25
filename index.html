@@ -10,7 +10,7 @@
 
     <section class="container py-3">
         <div class="chapter-card">
-            <h3 class="text-ar text-center">القرآن الكريم</h3>
+            <h3 class="text-center text-ar">القرآن الكريم</h3>
             <p class="text-center">
                 The Qur’an is the final divine revelation sent to humanity through Prophet Muhammad ﷺ. It consists
                 of 114 Surahs (chapters), each offering divine guidance, laws, morals, stories, and reflections for
@@ -30,7 +30,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.title = "The Noble Qur'an";
-            document.querySelectorAll(".page-title").forEach(el => el.innerHTML = "The Noble Qur'an");
 
             fetch("https://api.alquran.cloud/v1/surah")
                 .then((res) => res.json())
@@ -38,17 +37,17 @@
                     if (response.code === 200) {
                         const chapters = response.data;
 
-                        const chapterList = document.querySelector(".chapter-list");
                         chapters.forEach((chapter) => {
-                            const chapterItem = document.createElement("a");
-                            chapterItem.href = `quran-view.html?chapter=${chapter.number}`;
-                            chapterItem.innerHTML = `
-                                <li class="mb-2">
-                                    ${chapter.number}. ${chapter.name}
-                                    <i class="bi bi-play-fill"></i>
-                                </li>
+                            const html = `
+                                <a href="quran-view.html?chapter=${chapter.number}">
+                                    <li class="mb-2">
+                                        ${chapter.number}. ${chapter.englishName}
+                                        <i class="bi bi-play-fill"></i>
+                                    </li>
+                                </a>
                             `;
-                            chapterList.appendChild(chapterItem);
+
+                            document.querySelector(".chapter-list").insertAdjacentHTML("beforeend", html);
                         });
                     }
                 })

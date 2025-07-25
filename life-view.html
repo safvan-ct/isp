@@ -91,7 +91,7 @@
                         hadiths.forEach(({ ar = "", text = "", reference = "" }) => {
                             html += `
                             <blockquote class="blockquote">
-                                ${ar ? `<p dir="rtl">${ar}</p>` : ""}
+                                ${ar ? `<p dir="rtl" class="text-ar">${ar}</p>` : ""}
                                 <p>${text} ${reference ? `<br><span class="text-muted small fst-italic">- ${reference}</span>` : ""}</p>
                             </blockquote>`;
                         });
@@ -101,7 +101,7 @@
                         quran.forEach(({ ar = "", text = "", reference = "" }) => {
                             html += `
                             <blockquote class="blockquote">
-                                ${ar ? `<p dir="rtl">${ar}</p>` : ""}
+                                ${ar ? `<p dir="rtl" class="text-ar">${ar}</p>` : ""}
                                 <p>${text} ${reference ? `<br><span class="text-muted small fst-italic">- ${reference}</span>` : ""}</p>
                             </blockquote>`;
                         });

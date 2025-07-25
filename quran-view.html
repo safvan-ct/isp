@@ -70,26 +70,23 @@
 
                 // Title Setup
                 document.querySelector(".surah-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
+                document.title = `${chapterData.englishName} | ${chapterData.name}`;
                 document.getElementById("surah-number").textContent = toArabicNumber(chapterData.number);
                 document.getElementById("total-ayahs").textContent = toArabicNumber(chapterData.numberOfAyahs);
 
-                // Ayahs Rendering
-                const ayahsContainer = document.getElementById("chapter-ayahs");
-                ayahsContainer.innerHTML = ""; // clear if needed
-
                 chapterData.ayahs.forEach((ayah) => {
                     const translation = translations.find((a) => a.numberInSurah === ayah.numberInSurah);
-
-                    const ayahCard = document.createElement("div");
-                    ayahCard.className = "ayah-card";
-                    ayahCard.innerHTML = `
+                    const html = `
+                        <div class="ayah-card">
                             <div class="ayah-arabic">
-                                ${ayah.text}
+                                <span class="text-ar">${ayah.text}</span>
                                 <span class="ayah-number-ar">${toArabicNumber(ayah.numberInSurah)}</span>
                             </div>
                             <div class="ayah-translation">${translation?.text || "<em>No Malayalam translation available</em>"}</div>
-                        `;
-                    ayahsContainer.appendChild(ayahCard);
+                        </div>
+                    `;
+
+                    document.getElementById("chapter-ayahs").insertAdjacentHTML("beforeend", html);
                 });
             };
 

@@ -20,8 +20,9 @@ fetch("partials/navbar.html")
 		const navLinks = document.querySelectorAll(".nav-link");
 		navLinks.forEach((link) => {
 			const linkText = link.textContent.trim().toLowerCase();
+			const linkHref = link.getAttribute("href").split("/").pop().replace(".html", "");
 
-			if (linkText === route.toLowerCase()) {
+			if (linkText === route.toLowerCase() || linkHref === route) {
 				link.classList.add("active");
 			}
 		});

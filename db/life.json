@@ -3,7 +3,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "Education",
-        "ml_title": "test",
+        "ml_title": "വിദ്യാഭ്യാസം",
         "en": [
             "What can be learned?",
             "What to keep?"
@@ -17,7 +17,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "Life Style",
-        "ml_title": "test",
+        "ml_title": "ജീവിത ശൈലി",
         "en": [
             "Clothing (male, female)",
             "Hair and beard cutting?",
@@ -36,7 +36,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "Marriage",
-        "ml_title": "test",
+        "ml_title": "വിവാഹം",
         "en": [
             "Love",
             "How to find partner?",
@@ -61,7 +61,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "Birth",
-        "ml_title": "test",
+        "ml_title": "ജനനം",
         "en": [
             "What should I do when a child is born?",
             "Performing the Aqiqah?",
@@ -83,7 +83,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "Celebrations",
-        "ml_title": "test",
+        "ml_title": "ആഘോഷങ്ങൾ",
         "en": [
             "What are the celebrations?",
             "Eid Festivals?",
@@ -103,7 +103,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "Death",
-        "ml_title": "test",
+        "ml_title": "മരണം",
         "en": [
             "What should you do if a person dies?",
             "Debt of the deceased?",
@@ -130,7 +130,7 @@
         "id": 6,
         "icon": "🧬",
         "title": "After Death",
-        "ml_title": "test",
+        "ml_title": "മഹ്ഷറ",
         "en": [
             "Life in the grave?",
             "Questions in the grave?",

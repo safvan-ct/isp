@@ -12,26 +12,25 @@
         <div class="chapter-card">
             <div class="surah-header">
                 <div class="surah-name"></div>
-                <div>
+                <div class="notranslate">
                     Chapter Number: <strong id="surah-number"></strong> |
                     Total Hadith: <strong id="total-ayahs"></strong>
                 </div>
 
-                <div>
-                    <a href="" id="book-url" class="">back to previous chapter</a>
+                <div class="notranslate">
+                    <a href="#" id="book-url" style="color: #4E2D45;">Chpters</a>
                 </div>
 
-                <div class="input-group mt-2">
+                <div class="input-group mt-2 notranslate">
                     <input type="number" class="form-control" min="1" placeholder="Search hadith by number..."
                         id="hadith-number" />
-                    <button type="button" class="btn btn-primary" onclick="searchHadithByNumber()">Go
+                    <button type="button" class="btn btn-secondary" onclick="searchHadithByNumber()">Go
                         To</button>
                 </div>
 
                 <div id="google_translate_element" class="mt-2 mb-0"></div>
             </div>
 
-            <h4 class="text-center text-primary chapter-name"></h4>
             <span id="chapter-ayahs"></span>
         </div>
     </section>
@@ -121,19 +120,25 @@
                         const hadiths = response.hadiths.data;
                         const book = hadiths[0].book;
                         const chapter = hadiths[0].chapter;
-                        
+
+                        document.querySelector("#book-url").innerHTML = book.bookName;
+                        document.querySelector(".surah-name").innerHTML = chapter.chapterNumber + " - " + chapter.chapterEnglish;
+                        document.querySelector("#surah-number").innerHTML = chapter.chapterNumber;
+                        document.querySelector("#total-ayahs").innerHTML = hadiths.length;
+                        document.title = `${book.bookName} | ${chapter.chapterEnglish}`;
+
                         const chapterList = document.querySelector("#chapter-ayahs");
-                        hadiths.forEach((hadith, index) => {                            
+                        hadiths.forEach((hadith, index) => {
                             const hadithCard = document.createElement("div");
                             hadithCard.className = "ayah-card";
 
-                            let content = `<div class="ayah-arabic notranslate"><strong>${hadith.hadithNumber}</strong> - Status: <i>${hadith.status}</i></div> `;
+                            let content = `<div dir="rtl" class="notranslate"><strong>${hadith.hadithNumber}</strong> - Status: <i>${hadith.status}</i></div> `;
                             if (hadith.headingArabic) {
-                                content += `<h6 class="ayah-arabic notranslate">${hadith.headingArabic}</h6> <h6>${hadith.headingEnglish}</h6>`;
+                                content += `<h6 class="ayah-arabic notranslate fw-bold">${hadith.headingArabic}</h6> <h6 class="fw-bold">${hadith.headingEnglish}</h6>`;
                             }
 
                             content += `
-                                <div class="ayah-arabic notranslate">
+                                <div class="ayah-arabic notranslate" style="font-size: 24px; line-height: 2">
                                     ${hadith.hadithArabic}
                                     <span class="fst-italic">(${index + 1})</span>
                                 </div>
@@ -142,12 +147,6 @@
 
                             chapterList.appendChild(hadithCard);
                         });
-
-                        let html = chapter.chapterNumber + " - " + chapter.chapterEnglish;                        
-
-                        document.querySelector("#book-url").innerHTML = book.bookName;
-                        document.querySelectorAll(".surah-name").forEach(el => el.innerHTML = html);
-                        document.querySelector("#surah-number").innerHTML = chapter.chapterNumber;
 
                         CHAPTER_NUMBER = chapter.chapterNumber;
                     } else {

@@ -2,12 +2,7 @@
 <html lang="ml">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ഒരു മനുഷ്യൻ മരിച്ചാൽ എന്ത് ചെയ്യണം?</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <span id="headContainer"></span>
 
     <style>
         blockquote {
@@ -32,7 +27,7 @@
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item"><a href="life.html" class="text-decoration-none">Life</a></li>
-                    <li class="breadcrumb-item"><a href="list.html" class="text-decoration-none">Death</a></li>
+                    <li class="breadcrumb-item"><a href="life-list.html?id=6" class="text-decoration-none">Death</a></li>
                     <li class="breadcrumb-item active" aria-current="page">ഒരു മനുഷ്യൻ മരിച്ചാൽ എന്ത് ചെയ്യണം?</li>
                 </ol>
             </nav>
@@ -109,12 +104,16 @@
         </div>
     </main>
 
-    <footer>
-        © 2025 ഒരു മനുഷ്യൻ മരിച്ചാൽ എന്ത് ചെയ്യണം? | ഖുർആൻ & ഹദീസ് അടിസ്ഥാനത്തിൽ
-    </footer>
+    <span id="footerContainer"></span>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/custom.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.title = "ഒരു മനുഷ്യൻ മരിച്ചാൽ എന്ത് ചെയ്യണം?";
+        });
+    </script>
 </body>
 
 </html>
