@@ -89,7 +89,7 @@
                     document.title = data.ml_title;
 
                     items.forEach((item, index) => {
-                        const url = id == 6 ? index == 0 ? `life-index.html` : `life-view.html?id=${index + 1}` : '#';
+                        const url = index == 0 ? `life-index.html` : `life-view.html?topic=${id}&id=${index + 1}`;
                         contentList.insertAdjacentHTML("beforeend", `
                             <div class="guide-card mb-2">
                             <a href="${url}" class="guide-title text-decoration-none">${index + 1} - ${item}</a>
@@ -98,7 +98,6 @@
                         `);
                     });
                 });
-
             } catch (error) {
                 console.error("🔥 Error loading data:", error);
                 contentList.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;

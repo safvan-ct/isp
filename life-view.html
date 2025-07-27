@@ -23,8 +23,7 @@
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item"><a href="life.html" class="text-decoration-none">Life</a></li>
-                    <li class="breadcrumb-item"><a href="life-list.html?id=6" class="text-decoration-none">Death</a>
-                    </li>
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none" id="topicMenu"></a></li>
                     <li class="breadcrumb-item active page-title" aria-current="page"></li>
                 </ol>
             </nav>
@@ -35,7 +34,7 @@
         <div class="bg-white p-4 rounded shadow-sm">
             <span id="content"></span>
 
-            <div class="text-center">
+            <div class="text-center d-none" id="shareBox">
                 <div class="p-4 rounded-4 shadow-sm share-box">
                     <h4 class="fw-bold mb-3">📤 ഈ വിവരം മറ്റുള്ളവർക്കും എത്തിക്കൂ</h4>
                     <p class="mb-4">
@@ -53,73 +52,146 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/custom.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", async function () {
+    <script type="module">
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyD9CrCyr09c27TBi-yViwyk0l8HN340IHQ",
+            authDomain: "isp-db-2330.firebaseapp.com",
+            projectId: "isp-db-2330",
+            storageBucket: "isp-db-2330.firebasestorage.app",
+            messagingSenderId: "466666491726",
+            appId: "1:466666491726:web:c5e9649793d8352465581f",
+            measurementId: "G-CMDJLRF946"
+        };
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            query,
+            where,
+            doc,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // async function saveData(fs_db, filePath) {
+        //     const res = await fetch(filePath);
+        //     const topics = await res.json();
+
+        //     for (const topic of topics) {
+        //         const ref = doc(db, fs_db, topic.id.toString());
+        //         await setDoc(ref, topic);
+        //         console.log("✅ Uploaded:", topic.title);
+        //     }
+        // }
+        // saveData("death", "db/death.json");
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const idParam = new URLSearchParams(window.location.search).get("id");
+            const id = parseInt(idParam);
+            const topicIdParam = new URLSearchParams(window.location.search).get("topic");
+            const topicId = parseInt(topicIdParam);
+            const loader = document.getElementById("pageLoader");
+            const contentContainer = document.querySelector("#content");
+            let docTitle = "ISP";
+
+            if (!id || isNaN(id) || !topicId || isNaN(topicId)) {
+                contentContainer.innerHTML = `<div class="text-danger text-center">തെറ്റായ ID ലഭിച്ചു.</div>`;
+                if (loader) loader.style.display = "none";
+                return;
+            }
+
             try {
-                const id = new URLSearchParams(window.location.search).get("id");
-                const res = await fetch("db/death.json");
-                const data = await res.json();
+                const qry = query(collection(db, "life_of_muslim"), where("id", "==", topicId));
+                const qrySnapshot = await getDocs(qry);
 
-                const contentData = data.find(item => item.id == id);
-                if (!contentData) return;
+                if (qrySnapshot.empty) {
+                    contentContainer.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലഭിച്ചില്ല.</div>`;
+                    return;
+                }
 
-                const { title, description, contents } = contentData;
+                qrySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
 
-                document.title = title;
+                    docTitle += " - " + data.ml_title;
+                    document.getElementById("topicMenu").innerHTML = data.title;
+                    document.getElementById("topicMenu").href = `life-list.html?id=${topicId}`;
+                });
 
-                document.querySelectorAll(".page-title").forEach(el => el.textContent = title);
-                const subtitleEl = document.querySelector("#subtitle");
-                if (subtitleEl) subtitleEl.textContent = description;
+                const q = query(collection(db, "death"), where("id", "==", id));
+                const querySnapshot = await getDocs(q);
 
-                const contentContainer = document.querySelector("#content");
-                if (!contentContainer) return;
+                if (querySnapshot.empty) {
+                    contentContainer.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലഭിച്ചില്ല.</div>`;
+                    return;
+                }
 
-                contents.forEach(({ title, description = "", list = [], unstyledList = [], orderdList = [], hadiths = [], quran = [] }) => {
-                    let html = `<div class="mb-4"><h2>${title}</h2>`;
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const contents = data.contents || [];
 
-                    if (description) html += `<p>${description}</p>`;
-
-                    if (list.length) {
-                        html += `<ul>${list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+                    if (topicId != data.topic_id) {
+                        contentContainer.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലഭിച്ചില്ല.</div>`;
+                        return;
                     }
 
-                    if (unstyledList.length) {
-                        html += `<ul class="step-list list-unstyled px-4">${unstyledList.map(item => `<li>${item}</li>`).join('')}</ul>`;
-                    }
+                    document.querySelectorAll(".page-title").forEach(el => el.textContent = data.title);
+                    document.querySelector("#subtitle").innerHTML = data.desc;
+                    docTitle += " - " + data.title;
+                    document.title = docTitle;
 
-                    if (orderdList.length) {
-                        html += `<ol>${orderdList.map(item => `<li>${item}</li>`).join('')}</ol>`;
-                    }
+                    contents.forEach(({ title, desc = "", list = [], unstyledList = [], orderdList = [], hadiths = [], quran = [] }) => {
+                        let html = `<div class="mb-4"><h2>${title}</h2>`;
 
-                    if (hadiths.length) {
-                        hadiths.forEach(({ ar = "", text = "", reference = "" }) => {
-                            html += `
+                        if (desc) html += `<p>${desc}</p>`;
+
+                        if (list.length) {
+                            html += `<ul>${list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+                        }
+
+                        if (unstyledList.length) {
+                            html += `<ul class="step-list list-unstyled px-4">${unstyledList.map(item => `<li>${item}</li>`).join('')}</ul>`;
+                        }
+
+                        if (orderdList.length) {
+                            html += `<ol>${orderdList.map(item => `<li>${item}</li>`).join('')}</ol>`;
+                        }
+
+                        if (hadiths.length) {
+                            hadiths.forEach(({ ar = "", text = "", reference = "" }) => {
+                                html += `
                             <blockquote>
                                 ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                 <p class="m-0">${text} ${reference ? `<br><span class="text-muted small fst-italic">- ${reference}</span>` : ""}</p>
                             </blockquote>`;
-                        });
-                    }
+                            });
+                        }
 
-                    if (quran.length) {
-                        quran.forEach(({ ar = "", text = "", reference = "" }) => {
-                            html += `
+                        if (quran.length) {
+                            quran.forEach(({ ar = "", text = "", reference = "" }) => {
+                                html += `
                             <blockquote>
                                 ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                 <p class="m-0">${text} ${reference ? `<br><span class="text-muted small fst-italic">- ${reference}</span>` : ""}</p>
                             </blockquote>`;
-                        });
-                    }
+                            });
+                        }
 
-                    html += `</div>`;
-                    contentContainer.insertAdjacentHTML("beforeend", html);
-
-                    const loader = document.getElementById("pageLoader");
-                    if (loader) loader.style.display = "none";
+                        html += `</div>`;
+                        contentContainer.insertAdjacentHTML("beforeend", html);
+                        document.getElementById("shareBox").classList.remove("d-none");
+                    });
                 });
 
             } catch (error) {
-                console.error("Error loading content:", error);
+                console.error("🔥 Error loading data:", error);
+                contentContainer.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
+            } finally {
+                if (loader) loader.style.display = "none";
             }
         });
     </script>

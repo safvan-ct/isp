@@ -42,41 +42,39 @@ fetch("partials/footer.html")
 	})
 	.catch((err) => console.error("Error loading head:", err));
 
-// async function saveData() {
-//     fetch("db/life.json")
-//     const res = await fetch("db/life.json");
-//     const topics = await res.json();
+async function saveData(fs_db, filePath) {
+	const res = await fetch(filePath);
+	const topics = await res.json();
 
-//     for (const topic of topics) {
-//         const ref = db.collection("life_of_muslim").doc(topic.id.toString());
-//         await ref.set(topic);
-//         console.log("Uploaded:", topic.title);
-//     }
-// }
+	for (const topic of topics) {
+		const ref = doc(db, fs_db, topic.id.toString());
+		await setDoc(ref, topic);
+		console.log("✅ Uploaded:", topic.title);
+	}
+}
 
-// async function exportCollectionToJson(collectionName) {
-//     try {
-//         const snapshot = await db.collection(collectionName).get();
-//         const data = [];
+async function exportCollectionToJson(collectionName) {
+	try {
+		const colRef = collection(db, collectionName);
+		const snapshot = await getDocs(colRef);
+		const data = [];
 
-//         snapshot.forEach(doc => {
-//             data.push({ id: doc.id, ...doc.data() });
-//         });
+		snapshot.forEach((doc) => {
+			data.push({ id: doc.id, ...doc.data() });
+		});
 
-//         // Convert to JSON string
-//         const jsonStr = JSON.stringify(data, null, 2);
+		const jsonStr = JSON.stringify(data, null, 2);
 
-//         // Trigger file download
-//         const blob = new Blob([jsonStr], { type: "application/json" });
-//         const url = URL.createObjectURL(blob);
-//         const a = document.createElement("a");
-//         a.href = url;
-//         a.download = `${collectionName}.json`;
-//         a.click();
-//         URL.revokeObjectURL(url);
+		const blob = new Blob([jsonStr], { type: "application/json" });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `${collectionName}.json`;
+		a.click();
+		URL.revokeObjectURL(url);
 
-//         console.log("✅ Exported:", collectionName);
-//     } catch (err) {
-//         console.error("❌ Export failed:", err);
-//     }
-// }
+		console.log("✅ Exported:", collectionName);
+	} catch (err) {
+		console.error("❌ Export failed:", err);
+	}
+}
