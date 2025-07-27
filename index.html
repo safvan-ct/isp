@@ -5,20 +5,28 @@
     <span id="headContainer"></span>
 </head>
 
+<style>
+
+</style>
+
 <body>
+    <div class="loader" id="pageLoader">
+        <div class="spinner"></div>
+    </div>
+
     <span id="navbarContainer"></span>
 
     <section class="container py-3">
-        <div class="chapter-card">
-            <h3 class="text-center text-ar">القرآن الكريم</h3>
+        <div class="index-card">
+            <h3 class="text-center quran-text">القرآن الكريم</h3>
             <p class="text-center">
-                The Qur’an is the final divine revelation sent to humanity through Prophet Muhammad ﷺ. It consists
+                The Qur'an is the final divine revelation sent to humanity through Prophet Muhammad ﷺ. It consists
                 of 114 Surahs (chapters), each offering divine guidance, laws, morals, stories, and reflections for
                 life. This sacred text has been preserved unchanged and continues to be a source of light and
                 wisdom.
             </p>
 
-            <ul class="chapter-list col-four"></ul>
+            <ul class="index-list"></ul>
         </div>
     </section>
 
@@ -28,30 +36,34 @@
     <script src="assets/js/custom.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", async () => {
             document.title = "The Noble Qur'an";
+            const loader = document.getElementById("pageLoader");
+            const chapterList = document.querySelector(".index-list");
 
-            fetch("https://api.alquran.cloud/v1/surah")
-                .then((res) => res.json())
-                .then((response) => {
-                    if (response.code === 200) {
-                        const chapters = response.data;
+            try {
+                const res = await fetch("https://api.alquran.cloud/v1/surah");
+                const response = await res.json();
 
-                        chapters.forEach((chapter) => {
-                            const html = `
-                                <a href="quran-view.html?chapter=${chapter.number}">
-                                    <li class="mb-2">
-                                        ${chapter.number}. ${chapter.englishName}
-                                        <i class="bi bi-play-fill"></i>
-                                    </li>
-                                </a>
-                            `;
+                if (response.code === 200 && Array.isArray(response.data)) {
+                    const html = response.data.map(chapter => `
+                    <a href="quran-view.html?chapter=${chapter.number}" class="text-decoration-none">
+                        <li class="mb-2">
+                            ${chapter.number}. ${chapter.englishName}
+                            <i class="bi bi-play-fill"></i>
+                        </li>
+                    </a>
+                `).join("");
 
-                            document.querySelector(".chapter-list").insertAdjacentHTML("beforeend", html);
-                        });
-                    }
-                })
-                .catch((err) => console.error("Error loading chapters:", err));
+                    chapterList.innerHTML = html;
+                } else {
+                    console.error("Unexpected API structure:", response);
+                }
+            } catch (err) {
+                console.error("Error loading chapters:", err);
+            } finally {
+                if (loader) loader.style.display = "none";
+            }
         });
     </script>
 </body>

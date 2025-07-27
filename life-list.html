@@ -6,23 +6,27 @@
 </head>
 
 <body>
+    <div class="loader" id="pageLoader">
+        <div class="spinner"></div>
+    </div>
+
     <span id="navbarContainer"></span>
 
-    <header class="text-white text-center py-5">
+    <header class="text-white text-center py-3">
         <div class="container">
             <h1 class="page-title"></h1>
             <p id="subtitle"></p>
-            <nav aria-label="breadcrumb" class="custom-breadcrumb rounded p-2 mt-3">
+            <nav aria-label="breadcrumb" class="custom-breadcrumb rounded p-2 mt-2">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="../../index.html" class="text-decoration-none">Home</a></li>
-                    <li class="breadcrumb-item"><a href="../../life.html" class="text-decoration-none">Life</a></li>
-                    <li class="breadcrumb-item active page-title" aria-current="page"></li>
+                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="life.html" class="text-decoration-none">Life</a></li>
+                    <li class="breadcrumb-item active page-title text-muted" aria-current="page"></li>
                 </ol>
             </nav>
         </div>
     </header>
 
-    <main class="container py-4 col-two" id="contentList"></main>
+    <main class="py-4 col-two" id="contentList"></main>
 
     <span id="footerContainer"></span>
 
@@ -62,13 +66,16 @@
                         response.forEach((content, index) => {
                             const url = content.url || `life-view.html?id=${content.id}`;
                             const contentItem = `
-                                <div class="guide-card">
-                                    <p class="guide-title">${index + 1} - ${content.title}</p>
+                                <div class="guide-card mb-2">
+                                    <a href="${url}" class="guide-title text-decoration-none">${index + 1} - ${content.title}</a>
                                     <a href="${url}" class="view-btn">➜</a>
                                 </div>
                             `;
                             contentList.insertAdjacentHTML("beforeend", contentItem);
                         });
+
+                        const pageLoader = document.querySelector("#pageLoader");
+                        if (pageLoader) pageLoader.style.display = "none";
                     })
                     .catch((err) => console.error("⚠️ Error loading content:", err));
             }

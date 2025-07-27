@@ -6,19 +6,22 @@
 </head>
 
 <body>
+    <div class="loader" id="pageLoader">
+        <div class="spinner"></div>
+    </div>
+
     <span id="navbarContainer"></span>
 
     <section class="container py-3">
-        <div class="chapter-card">
+        <div class="index-card">
             <h3 class="book-name text-center text-capitalize fw-bold"></h3>
             <div class="input-group mb-4">
-                <input type="number" class="form-control" min="1" placeholder="Search hadith by number..."
-                    id="hadith-number" />
-                <button type="button" class="btn btn-secondary" onclick="searchHadithByNumber()">Go
+                <input type="number" class="form-control" min="1" placeholder="Search hadith..." id="hadith-number" />
+                <button type="button" class="btn btn-primary" onclick="searchHadithByNumber()">Go
                     To</button>
             </div>
 
-            <ul class="chapter-list col-two"></ul>
+            <ul class="index-list col-two"></ul>
         </div>
     </section>
 
@@ -28,81 +31,78 @@
     <script src="assets/js/custom.js"></script>
 
     <script>
-        API_KEY = "$2y$10$B8yax3MxHEcXfplBYp94edFIjUBgKs05qwd08hZESA9C9NHtAwP6";
-
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", () => {
+            const API_KEY = "$2y$10$B8yax3MxHEcXfplBYp94edFIjUBgKs05qwd08hZESA9C9NHtAwP6";
             const bookSlug = new URLSearchParams(window.location.search).get("book");
             const input = document.getElementById("hadith-number");
-            document.querySelector(".book-name").innerHTML = bookSlug;
-            document.title = `${bookSlug} | Hadiths`;
+            const bookNameEl = document.querySelector(".book-name");
+            const listEl = document.querySelector(".index-list");
+            const loader = document.getElementById("pageLoader");
 
-            switch (bookSlug) {
-                case "sahih-bukhari":
-                case "sahih-muslim":
-                    input.setAttribute("max", "7563");
-                    input.placeholder = "Search hadith by number (1-7563)";
-                    break;
-                case "al-tirmidh":
-                    input.setAttribute("max", "3955");
-                    input.placeholder = "Search hadith by number (1-3955)";
-                    break;
-                case "abu-dawood":
-                    input.setAttribute("max", "5274");
-                    input.placeholder = "Search hadith by number (1-5274)";
-                    break;
-                case "ibn-e-majah":
-                    input.setAttribute("max", "4341");
-                    input.placeholder = "Search hadith by number (1-4341)";
-                    break;
-                case "sunan-nasai":
-                    input.setAttribute("max", "5761");
-                    input.placeholder = "Search hadith by number (1-5761)";
-                    break;
-                case "mishkat":
-                    input.setAttribute("max", "6294");
-                    input.placeholder = "Search hadith by number (1-6294)";
-                    break;
-                default:
-                    input.placeholder = "Search hadith by number....";
-                    return;
+            const bookHadithLimits = {
+                "sahih-bukhari": 7563,
+                "sahih-muslim": 7563,
+                "al-tirmidh": 3955,
+                "abu-dawood": 5274,
+                "ibn-e-majah": 4341,
+                "sunan-nasai": 5761,
+                "mishkat": 6294,
+            };
+
+            document.title = `${bookSlug} | Hadiths`;
+            if (bookNameEl) bookNameEl.textContent = bookSlug;
+
+            // Set max and placeholder if book is valid
+            if (bookSlug in bookHadithLimits) {
+                const max = bookHadithLimits[bookSlug];
+                input.setAttribute("max", max);
+                input.placeholder = `Search hadith (1-${max})`;
+            } else {
+                input.placeholder = "Search hadith...";
+                return;
             }
 
-            const url = "https://www.hadithapi.com/api/book_slug/chapters?apiKey=api_key".replace("api_key", API_KEY).replace("book_slug", bookSlug);
-
+            // Fetch chapters
+            const url = `https://www.hadithapi.com/api/${bookSlug}/chapters?apiKey=${API_KEY}`;
 
             fetch(url)
                 .then((res) => res.json())
                 .then((response) => {
-                    if (response.status === 200) {
-                        const chapters = response.chapters;
-
-                        chapters.forEach((chapter) => {
+                    if (response.status === 200 && Array.isArray(response.chapters)) {
+                        for (const chapter of response.chapters) {
                             const html = `
-                                <a href="hadith-view.html?book=${bookSlug}&chapter=${chapter.chapterNumber}">
-                                    <li class="mb-2">
-                                        ${chapter.chapterNumber}. ${chapter.chapterEnglish}
-                                        <i class="bi bi-play-fill"></i>
-                                    </li>
-                                </a>
-                            `;
-
-                            document.querySelector(".chapter-list").insertAdjacentHTML("beforeend", html);
-                        });
+                            <a href="hadith-view.html?book=${bookSlug}&chapter=${chapter.chapterNumber}" class="text-decoration-none">
+                                <li class="mb-2">
+                                    ${chapter.chapterNumber}. ${chapter.chapterEnglish}
+                                    <i class="bi bi-play-fill"></i>
+                                </li>
+                            </a>
+                        `;
+                            listEl.insertAdjacentHTML("beforeend", html);
+                        }
+                    } else {
+                        console.error("Invalid chapter response format");
                     }
+
+                    if (loader) loader.style.display = "none";
                 })
-                .catch((err) => console.error("Error loading chapters:", err));
+                .catch((err) => {
+                    console.error("Error loading chapters:", err);
+                    if (loader) loader.style.display = "none";
+                });
         });
 
         function searchHadithByNumber() {
             const bookSlug = new URLSearchParams(window.location.search).get("book");
-            const hadithNumber = document.querySelector("input").value;
+            const input = document.getElementById("hadith-number");
+            const number = parseInt(input.value);
 
-            if (hadithNumber < 1) {
-                alert("Invalid hadith number. Please try again.");
+            if (isNaN(number) || number < 1) {
+                alert("Please enter a valid Hadith number.");
                 return;
             }
 
-            window.location.href = `hadith-view.html?book=${bookSlug}&hadith=${hadithNumber}`;
+            window.location.href = `hadith-view.html?book=${bookSlug}&hadith=${number}`;
         }
     </script>
 </body>

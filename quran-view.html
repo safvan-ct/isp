@@ -6,17 +6,23 @@
 </head>
 
 <body>
+    <div class="loader" id="pageLoader">
+        <div class="spinner"></div>
+    </div>
+
     <span id="navbarContainer"></span>
 
     <section class="container py-3">
-        <div class="chapter-card">
-            <div class="surah-header">
-                <div class="surah-name"></div>
-                <div>Surah Number: <strong id="surah-number"></strong> | Total Ayahs: <strong id="total-ayahs"></strong>
+        <div class="index-card">
+            <div class="chapter-header mb-3">
+                <div class="chapter-name"></div>
+                <div>
+                    Chapter Number: <strong id="chapter-number"></strong> |
+                    Total Ayahs: <strong id="total-ayahs"></strong>
                 </div>
             </div>
 
-            <span id="chapter-ayahs"></span>
+            <span id="chapter-verses"></span>
         </div>
     </section>
 
@@ -69,9 +75,9 @@
                 if (!chapterData) return;
 
                 // Title Setup
-                document.querySelector(".surah-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
+                document.querySelector(".chapter-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
                 document.title = `${chapterData.englishName} | ${chapterData.name}`;
-                document.getElementById("surah-number").textContent = toArabicNumber(chapterData.number);
+                document.getElementById("chapter-number").textContent = toArabicNumber(chapterData.number);
                 document.getElementById("total-ayahs").textContent = toArabicNumber(chapterData.numberOfAyahs);
 
                 chapterData.ayahs.forEach((ayah) => {
@@ -79,14 +85,17 @@
                     const html = `
                         <div class="ayah-card">
                             <div class="ayah-arabic">
-                                <span class="text-ar">${ayah.text}</span>
-                                <span class="ayah-number-ar">${toArabicNumber(ayah.numberInSurah)}</span>
+                                <span class="quran-text">${ayah.text}</span>
+                                <span class="ayah-number">${toArabicNumber(ayah.numberInSurah)}</span>
                             </div>
-                            <div class="ayah-translation">${translation?.text || "<em>No Malayalam translation available</em>"}</div>
+                            <div class="ayah-trans">${translation?.text || "<em>No Malayalam translation available</em>"}</div>
                         </div>
                     `;
 
-                    document.getElementById("chapter-ayahs").insertAdjacentHTML("beforeend", html);
+                    document.getElementById("chapter-verses").insertAdjacentHTML("beforeend", html);
+
+                    const loader = document.getElementById("pageLoader");
+                    if (loader) loader.style.display = "none";
                 });
             };
 
