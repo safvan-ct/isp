@@ -85,11 +85,11 @@
                     const items = data.ml || [];
 
                     document.querySelectorAll(".page-title").forEach(el => el.textContent = data.ml_title);
-                    document.querySelector("#subtitle").textContent = data.desc;
+                    document.querySelector("#subtitle").innerHTML = data.desc;
                     document.title = data.ml_title;
 
                     items.forEach((item, index) => {
-                        const url = id == 6 ? data.url || `life-view.html?id=${index + 1}` : '#';
+                        const url = id == 6 ? index == 0 ? `life-index.html` : `life-view.html?id=${index + 1}` : '#';
                         contentList.insertAdjacentHTML("beforeend", `
                             <div class="guide-card mb-2">
                             <a href="${url}" class="guide-title text-decoration-none">${index + 1} - ${item}</a>
