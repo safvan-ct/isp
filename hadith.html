@@ -32,7 +32,6 @@
 				.then(res => res.json())
 				.then(({ status, books }) => {
 					if (status !== 200 || !Array.isArray(books)) {
-						console.error("Unexpected API response");
 						loader.style.display = "none";
 						return;
 					}
@@ -68,7 +67,6 @@
 					loader.style.display = "none";
 				})
 				.catch(err => {
-					console.error("Error loading books:", err);
 					loader.style.display = "none";
 				});
 		});

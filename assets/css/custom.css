@@ -31,6 +31,11 @@ blockquote {
     border-left: 4px solid #4E2D45;
 }
 
+p,
+h1 {
+    margin: 0px;
+}
+
 *:focus,
 *:active {
     outline: none !important;

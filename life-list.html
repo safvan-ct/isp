@@ -100,7 +100,6 @@
                     });
                 });
             } catch (error) {
-                console.error("🔥 Error loading data:", error);
                 contentList.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
             } finally {
                 if (loader) loader.style.display = "none";

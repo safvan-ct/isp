@@ -28,7 +28,7 @@
     <script src="assets/js/custom.js"></script>
 
     <script type="module">
-        // Firebase Config from console
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyD9CrCyr09c27TBi-yViwyk0l8HN340IHQ",
             authDomain: "isp-db-2330.firebaseapp.com",
@@ -74,7 +74,6 @@
                 });
 
             } catch (error) {
-                console.error("🔥 Error loading data:", error);
                 lifeList.innerHTML = `<div class="col-12 text-danger">ഡാറ്റ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
             } finally {
                 const loader = document.getElementById("pageLoader");

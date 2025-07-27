@@ -56,11 +56,9 @@
                 `).join("");
 
                     chapterList.innerHTML = html;
-                } else {
-                    console.error("Unexpected API structure:", response);
                 }
             } catch (err) {
-                console.error("Error loading chapters:", err);
+                alert("An error occurred while fetching data.");
             } finally {
                 if (loader) loader.style.display = "none";
             }

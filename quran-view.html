@@ -48,8 +48,9 @@
                         return data.data.ayahs;
                     }
                 } catch (err) {
-                    console.error("Translation load error:", err);
+                    alert("An error occurred while fetching data.");
                 }
+
                 return []; // fallback
             };
 
@@ -61,8 +62,9 @@
                         return data.data;
                     }
                 } catch (err) {
-                    console.error("Chapter load error:", err);
+                    alert("An error occurred while fetching data.");
                 }
+
                 return null; // fallback
             };
 

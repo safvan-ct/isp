@@ -19,7 +19,7 @@
         <div class="container">
             <h1 class="page-title"></h1>
             <p id="subtitle"></p>
-            <nav aria-label="breadcrumb" class="custom-breadcrumb rounded p-2 mt-3">
+            <nav aria-label="breadcrumb" class="mt-2">
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item"><a href="life.html" class="text-decoration-none">Life of Muslim</a></li>
@@ -40,7 +40,8 @@
                     ദുആയും ഖൈരും മരിച്ചവന്റെ പിന്‍കാലത്ത് തുടരാം. നിങ്ങളുടെ ഒരു പങ്കുവെപ്പ് മറ്റൊരാളെ
                     ഓർമ്മിപ്പിക്കാം.
                 </p>
-                <a href="#" class="btn btn-primary rounded-pill px-4">🔗 ഷെയർ ചെയ്യൂ</a>
+                <a href="javascript:void(0)" onclick="handleShare()" class="btn btn-primary rounded-pill px-4">🔗 ഷെയർ
+                    ചെയ്യൂ</a>
             </div>
         </div>
     </main>
@@ -57,6 +58,23 @@
                 <div id="google_translate_element" class="mt-4 text-center"></div>
 
                 <div class="modal-body" id="hadithModalBody">
+                    <div class="text-center text-muted notranslate">ഡാറ്റ ലോഡ് ചെയ്യുന്നു...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quran Modal -->
+    <div class="modal fade notranslate" id="quranModal" tabindex="-1" aria-labelledby="quranModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title notranslate" id="quranModalLabel">ഖുർആൻ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body" id="quranModalBody">
                     <div class="text-center text-muted notranslate">ഡാറ്റ ലോഡ് ചെയ്യുന്നു...</div>
                 </div>
             </div>
@@ -149,6 +167,9 @@
             const loader = document.getElementById("pageLoader");
             const contentContainer = document.querySelector("#content");
             let docTitle = "ISP";
+            const fs_db = {
+                6: "death"
+            };
 
             if (!id || isNaN(id) || !topicId || isNaN(topicId)) {
                 contentContainer.innerHTML = `<div class="text-danger text-center">തെറ്റായ ID ലഭിച്ചു.</div>`;
@@ -173,7 +194,7 @@
                     document.getElementById("topicMenu").href = `life-list.html?id=${topicId}`;
                 });
 
-                const q = query(collection(db, "death"), where("id", "==", id));
+                const q = query(collection(db, fs_db[topicId]), where("id", "==", id));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
@@ -191,7 +212,7 @@
                     }
 
                     document.querySelectorAll(".page-title").forEach(el => el.textContent = data.title);
-                    document.querySelector("#subtitle").innerHTML = data.desc;
+                    document.querySelector("#subtitle").innerHTML = data.desc ?? "";
                     docTitle += " - " + data.title;
                     document.title = docTitle;
 
@@ -215,21 +236,18 @@
                         if (hadiths.length) {
                             hadiths.forEach(({ ar = "", text = "", reference = "", book_slug = "", hadith_number = "" }) => {
                                 html += `
-                                    <blockquote class="mb-0 mt-1">
+                                    <blockquote class="mb-0 mt-1" onclick="viewHadith('${book_slug}', ${hadith_number})" style="cursor: pointer;">
                                         ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
-                                            ${text} 
-                                            ${reference ? `<br>
-                                                <span class="text-muted small fst-italic" onclick="viewHadith('${book_slug}', ${hadith_number})" style="cursor: pointer;">
-                                                -&nbsp;<i class="bi bi-info-circle fs-6"></i> ${reference} 
-                                                </span>` : ""}
+                                        ${text} 
+                                        ${reference ? `<br><span class="text-muted small fst-italic">- ${reference} </span>` : ""}
                                     </blockquote>`;
                             });
                         }
 
                         if (quran.length) {
-                            quran.forEach(({ ar = "", text = "", reference = "" }) => {
+                            quran.forEach(({ ar = "", text = "", reference = "", sura = "", ayah = "" }) => {
                                 html += `
-                                <blockquote class="m-0">
+                                <blockquote class="m-0" onclick="viewQuran(${sura}, ${ayah})" style="cursor: pointer;">
                                     ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                     ${text} 
                                     ${reference ? `<br><span class="text-muted small fst-italic">- ${reference}</span>` : ""}
@@ -248,7 +266,6 @@
                 });
 
             } catch (error) {
-                console.error("🔥 Error loading data:", error);
                 contentContainer.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
             } finally {
                 if (loader) loader.style.display = "none";
@@ -291,8 +308,43 @@
                     `).join("");
                 })
                 .catch(err => {
-                    console.error("Error loading hadith:", err);
                     modalBody.innerHTML = `<div class="text-danger text-center py-3">ഹദീസ് ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
+                });
+        };
+
+        window.viewQuran = function (sura, ayah) {
+            const modalElement = document.getElementById("quranModal");
+            const modalBody = document.getElementById("quranModalBody");
+
+            modalBody.innerHTML = `<div class="text-center text-muted py-3">ഡാറ്റ ലോഡ് ചെയ്യുന്നു...</div>`;
+
+            const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+            modal.show();
+
+            const url = `https://api.alquran.cloud/v1/ayah/${sura}:${ayah}/editions/quran-uthman,ml.abdulhameed`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(response => {
+                    const quran = response.data;
+                    if (response.code !== 200 || !quran || quran.length === 0) {
+                        modalBody.innerHTML = `<div class="text-danger text-center py-3">ഖുർആൻ ലഭിച്ചില്ല. ദയവായി മറ്റൊന്ന് ശ്രമിക്കുക.</div>`;
+                        return;
+                    }
+
+                    const arabic = quran.filter(verse => verse.edition.language === "ar")[0];
+                    const malayalam = quran.filter(verse => verse.edition.language === "ml")[0];
+
+                    modalBody.innerHTML = `
+                        <blockquote class="border-start ps-3 mb-3">
+                            <p dir="rtl" class="fs-5 mt-3 quran-text" style="line-height: 2.2;">${arabic.text}</p>
+                            <p class="mt-2">${malayalam.text || "<em>No translation available</em>"}</p>
+                            <p class="text-muted small">${arabic.surah.number}. ${arabic.surah.englishName}: ${arabic.numberInSurah}</p>
+                        </blockquote>
+                    `;
+                })
+                .catch(err => {
+                    modalBody.innerHTML = `<div class="text-danger text-center py-3">ഖുർആൻ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
                 });
         };
 

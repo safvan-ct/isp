@@ -80,14 +80,11 @@
                         `;
                             listEl.insertAdjacentHTML("beforeend", html);
                         }
-                    } else {
-                        console.error("Invalid chapter response format");
                     }
 
                     if (loader) loader.style.display = "none";
                 })
                 .catch((err) => {
-                    console.error("Error loading chapters:", err);
                     if (loader) loader.style.display = "none";
                 });
         });

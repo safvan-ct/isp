@@ -47,20 +47,15 @@
 
                 if (response.code === 200 && Array.isArray(response.data)) {
                     const html = response.data.map(chapter => `
-                    <a href="quran-view.html?chapter=${chapter.number}" class="text-decoration-none">
-                        <li class="mb-2">
-                            ${chapter.number}. ${chapter.englishName}
-                            <i class="bi bi-play-fill"></i>
-                        </li>
-                    </a>
-                `).join("");
+                        <a href="quran-view.html?chapter=${chapter.number}" class="text-decoration-none">
+                            <li class="mb-2">${chapter.number}. ${chapter.englishName}<i class="bi bi-play-fill"></i></li>
+                        </a>
+                    `).join("");
 
                     chapterList.innerHTML = html;
-                } else {
-                    console.error("Unexpected API structure:", response);
                 }
             } catch (err) {
-                console.error("Error loading chapters:", err);
+                alert("An error occurred while fetching data.");
             } finally {
                 if (loader) loader.style.display = "none";
             }
