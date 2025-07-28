@@ -91,8 +91,10 @@
 
                         contentList.insertAdjacentHTML("beforeend", `
                             <div class="guide-card mb-2">
-                            <a href="${url}" class="guide-title text-decoration-none">${index + 1} - ${item}</a>
-                            <a href="${url}" class="view-btn">➜</a>
+                                <a href="${url}" class="guide-title text-decoration-none">
+                                    <span class="guide-number m-0">${index + 1}</span> - ${item}
+                                </a>
+                                <a href="${url}" class="view-btn"><i class="bi bi-arrow-right-circle-fill"></i></a>
                             </div>
                         `);
                     });

@@ -2,7 +2,7 @@
 <html lang="ml">
 
 <head>
-    <span id="headContainer"></span>    
+    <span id="headContainer"></span>
 </head>
 
 <body>
@@ -294,12 +294,11 @@
                     modalBody.innerHTML = hadiths.map(hadith => `
                         <blockquote class="border-start ps-3 mb-3">
                             ${hadith.headingArabic ? `
-                                <p class="quran-text notranslate fw-bold fs-5 m-0" dir="rtl">${hadith.headingArabic}</p>
-                                <p class="fw-bold mt-1">${hadith.headingEnglish || ""}</p>` : ""
-                        }
+                                <p class="notranslate fw-bold fs-6 m-0" dir="rtl">${hadith.headingArabic}</p>
+                                <p class="fw-bold fs-6">${hadith.headingEnglish || ""}</p>` : ""}
 
-                            ${hadith.hadithArabic ? `<p dir="rtl" class="fs-5 mt-3 notranslate">${hadith.hadithArabic}</p>` : ""}
-                            <p class="mt-2">${hadith.hadithEnglish || "<em>No translation available</em>"}</p>
+                            ${hadith.hadithArabic ? `<p dir="rtl" class="fs-6 mt-1 notranslate">${hadith.hadithArabic}</p>` : ""}
+                            <p class="mt-1">${hadith.hadithEnglish || "<em>No translation available</em>"}</p>
                             <p class="text-muted small notranslate mt-2 fst-italic">
                                 ${hadith.book.bookName},
                                 Volume: ${hadith.volume},

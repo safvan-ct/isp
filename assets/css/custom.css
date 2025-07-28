@@ -182,10 +182,22 @@ ul.step-list li {
     justify-content: space-between;
     align-items: center;
     transition: 0.3s;
+    border-left: #4E2D45 4px solid;
 }
 
 .guide-card:hover {
+    transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.guide-number {
+    background-color: #4e2d454a;
+    color: #4E2D45;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-align: center;
 }
 
 .guide-title {
@@ -245,16 +257,10 @@ ul.step-list li {
 }
 
 .view-btn {
-    background: none;
-    border: none;
+    font-size: 1.4rem;
     color: #4E2D45;
-    font-weight: bold;
+    transition: transform 0.2s ease;
     text-decoration: none;
-}
-
-.view-btn:hover {
-    text-decoration: none;
-    color: #3b2137;
 }
 
 /* Columns styles */

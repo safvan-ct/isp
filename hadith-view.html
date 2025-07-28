@@ -131,20 +131,25 @@
                         const card = document.createElement("div");
                         card.className = "ayah-card";
 
-                        card.innerHTML = `
-                        <div dir="rtl" class="notranslate">
-                            <strong>${hadith.hadithNumber}</strong> - Status: <i>${hadith.status}</i>
-                        </div>
+                        card.innerHTML = `                        
                         ${hadith.headingArabic ? `
-                            <h6 class="ayah-arabic notranslate fw-bold hadith-text">${hadith.headingArabic}</h6>
-                            <h6 class="fw-bold">${hadith.headingEnglish}</h6>` : ''}
-                        <div class="ayah-arabic notranslate hadith-text" style="font-size: 24px; line-height: 2">
+                            <h6 class="ayah-arabic notranslate fw-bold hadith-text fs-5 m-0" style="line-height: 1.6">${hadith.headingArabic}</h6>
+                            <h6 class="fw-bold fs-6">${hadith.headingEnglish}</h6>` : ''}
+
+                        <div class="ayah-arabic notranslate hadith-text" style="font-size: 20px; line-height: 1.6">
                             ${hadith.hadithArabic}
-                            <span class="fst-italic">(${index + 1})</span>
+                            <span class="fst-italic fs-6">(${index + 1})</span>
                         </div>
-                        <div class="text-en">
-                            ${hadith.hadithEnglish || "<em>No translation available</em>"}
-                        </div>
+
+                        <div class="text-en">${hadith.hadithEnglish || "<em>No translation available</em>"}</div>
+
+                        <p class="text-muted small notranslate mt-1 fst-italic">
+                            ${hadith.book.bookName},
+                            Volume: ${hadith.volume},
+                            Chapter: #${hadith.chapter.chapterNumber} - ${hadith.chapter.chapterEnglish},
+                            Hadith: #${hadith.hadithNumber},
+                            Status: ${hadith.status || "Unknown"}
+                        </p>
                     `;
 
                         chapterListEl.appendChild(card);
