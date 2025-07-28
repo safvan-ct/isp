@@ -3,12 +3,7 @@
 
 <head>
     <span id="headContainer"></span>
-    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
 </head>
-
-<style>
-
-</style>
 
 <body>
     <div class="loader" id="pageLoader">
@@ -17,19 +12,94 @@
 
     <span id="navbarContainer"></span>
 
-    <section class="container py-3">
-        <div class="index-card">
-            <h3 class="text-center quran-text">القرآن الكريم</h3>
-            <p class="text-center">
-                The Qur'an is the final divine revelation sent to humanity through Prophet Muhammad ﷺ. It consists
-                of 114 Surahs (chapters), each offering divine guidance, laws, morals, stories, and reflections for
-                life. This sacred text has been preserved unchanged and continues to be a source of light and
-                wisdom.
-            </p>
+    <header class="header">
+        <h1>ഇസ്ലാമിക് സ്റ്റഡി പോർട്ടൽ</h1>
+        <p>ഈ പോർട്ടൽ വഴി ഇസ്ലാമിക വിദ്യാഭ്യാസം ആഴത്തിൽ പഠിക്കാം</p>
+    </header>
 
-            <ul class="index-list mt-2"></ul>
+    <main class="container my-3">
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card section-card h-100 text-center d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title">📖 Quran | ഖുർആൻ പഠനം</h5>
+                        <p class="card-text">ഖുർആൻ ആയത്തുകൾ, അർഥം, തഫ്സീർ, ഓഡിയോ</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="quran.html" class="btn btn-primary">പഠിക്കാൻ തുടങ്ങൂ</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card section-card h-100 text-center d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title">🕋 Hadith | ഹദീസ്</h5>
+                        <p class="card-text">ബുഖാരി, മുസ്ലിം, മറ്റു സഹീഹ് ഹദീഥുകൾ മലയാളത്തിലേക്ക്</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="hadith.html" class="btn btn-primary">കാണുക</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card section-card h-100 text-center d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title">🧼 Death | മരണം</h5>
+                        <p class="card-text">മയ്യിത്ത് കുളിപ്പിക്കൽ, കഫൻ, നമസ്‌കാരം, ഖബർ</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="life-list.html?id=6" class="btn btn-primary">വിവരങ്ങൾ കാണുക</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card section-card h-100 text-center d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title">📚 Islamic History | ഇസ്ലാമിക ചരിത്രം</h5>
+                        <p class="card-text">നബി ജീവിതം, ഖുലഫാ റാശിദൂൻ, കലിഫാക്കൾ</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="#" class="btn btn-primary">പഠിക്കുക</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card section-card h-100 text-center d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title">👨‍👩‍👧 Family Guidance | കുടുംബശാസ്ത്രം</h5>
+                        <p class="card-text">വിവാഹം, കുട്ടികളുടെ ലാലനം, കുടുംബ ജീവിതം</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="#" class="btn btn-primary">കൂടുതൽ കാണുക</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card section-card h-100 text-center d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title">📅 Islamic Calendar | ഇസ്‌ലാമിക് കലണ്ടർ</h5>
+                        <p class="card-text">ഇസ്‌ലാമിക് ദിവസങ്ങൾ, റമളാൻ, ഹജ്ജ്</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="#" class="btn btn-primary">ദിവസങ്ങൾ കാണുക</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </main>
 
     <span id="footerContainer"></span>
 
@@ -38,31 +108,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            document.title = "The Noble Qur'an";
             const loader = document.getElementById("pageLoader");
-            const chapterList = document.querySelector(".index-list");
-
-            try {
-                const res = await fetch("https://api.alquran.cloud/v1/surah");
-                const response = await res.json();
-
-                if (response.code === 200 && Array.isArray(response.data)) {
-                    const html = response.data.map(chapter => `
-                    <a href="quran-view.html?chapter=${chapter.number}" class="text-decoration-none">
-                        <li class="mb-2">
-                            ${chapter.number}. ${chapter.englishName}
-                            <i class="bi bi-play-fill"></i>
-                        </li>
-                    </a>
-                `).join("");
-
-                    chapterList.innerHTML = html;
-                }
-            } catch (err) {
-                alert("An error occurred while fetching data.");
-            } finally {
-                if (loader) loader.style.display = "none";
-            }
+            if (loader) loader.style.display = "none";
         });
     </script>
 </body>

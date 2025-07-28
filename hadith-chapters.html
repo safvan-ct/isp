@@ -49,7 +49,12 @@
                 "mishkat": 6294,
             };
 
-            document.title = `${bookSlug} | Hadiths`;
+            let bk = bookSlug
+                .replace(/[-_]/g, ' ') // replace - or _ with space
+                .replace(/\b\w/g, char => char.toUpperCase()); // capitalize each word
+
+            document.title = `${bk} | Hadiths`;
+
             if (bookNameEl) bookNameEl.textContent = bookSlug;
 
             // Set max and placeholder if book is valid

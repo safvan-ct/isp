@@ -2,10 +2,7 @@
 <html lang="ml">
 
 <head>
-    <span id="headContainer"></span>
-    <script>
-        TITLE = "ISP";
-    </script>
+    <span id="headContainer"></span>    
 </head>
 
 <body>
@@ -166,7 +163,7 @@
             const topicId = parseInt(topicIdParam);
             const loader = document.getElementById("pageLoader");
             const contentContainer = document.querySelector("#content");
-            let docTitle = "ISP";
+            let docTitle = "";
             const fs_db = {
                 6: "death"
             };
@@ -189,8 +186,8 @@
                 qrySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
 
-                    docTitle = data.ml_title;
-                    document.getElementById("topicMenu").innerHTML = data.title;
+                    docTitle = "മുസ്ലിമിൻ്റെ ജീവിതം | " + data.ml_title;
+                    document.getElementById("topicMenu").innerHTML = data.ml_title;
                     document.getElementById("topicMenu").href = `life-list.html?id=${topicId}`;
                 });
 
@@ -213,7 +210,7 @@
 
                     document.querySelectorAll(".page-title").forEach(el => el.textContent = data.title);
                     document.querySelector("#subtitle").innerHTML = data.desc ?? "";
-                    docTitle += " - " + data.title;
+                    docTitle += " | " + data.title;
                     document.title = docTitle;
 
                     contents.forEach(({ title, desc = "", list = [], unstyledList = [], orderdList = [], hadiths = [], quran = [], youtube = "" }) => {
@@ -239,7 +236,7 @@
                                     <blockquote class="mb-0 mt-1" onclick="viewHadith('${book_slug}', ${hadith_number})" style="cursor: pointer;">
                                         ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                         ${text} 
-                                        ${reference ? `<br><span class="text-muted small fst-italic">- ${reference} </span>` : ""}
+                                        ${reference ? `<br><span class="text-muted small fst-italic"><i class="bi bi-file-text"></i> ${reference}</span>` : ""}
                                     </blockquote>`;
                             });
                         }
@@ -250,7 +247,7 @@
                                 <blockquote class="m-0" onclick="viewQuran(${sura}, ${ayah})" style="cursor: pointer;">
                                     ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                     ${text} 
-                                    ${reference ? `<br><span class="text-muted small fst-italic">- ${reference}</span>` : ""}
+                                    ${reference ? `<br><span class="text-muted small fst-italic"><i class="bi bi-file-text"></i> ${reference}</span>` : ""}
                                 </blockquote>`;
                             });
                         }
@@ -303,7 +300,7 @@
 
                             ${hadith.hadithArabic ? `<p dir="rtl" class="fs-5 mt-3 notranslate">${hadith.hadithArabic}</p>` : ""}
                             <p class="mt-2">${hadith.hadithEnglish || "<em>No translation available</em>"}</p>
-                            <p class="text-muted small notranslate">
+                            <p class="text-muted small notranslate mt-2 fst-italic">
                                 ${hadith.book.bookName},
                                 Volume: ${hadith.volume},
                                 Chapter: #${hadith.chapter.chapterNumber} - ${hadith.chapter.chapterEnglish},
@@ -342,10 +339,10 @@
                     const malayalam = quran.filter(verse => verse.edition.language === "ml")[0];
 
                     modalBody.innerHTML = `
-                        <blockquote class="border-start ps-3 mb-3">
+                        <blockquote class="border-start ps-3 mb-3 notranslate">
                             <p dir="rtl" class="fs-5 mt-3 quran-text" style="line-height: 2.2;">${arabic.text}</p>
                             <p class="mt-2">${malayalam.text || "<em>No translation available</em>"}</p>
-                            <p class="text-muted small">${arabic.surah.number}. ${arabic.surah.englishName}: ${arabic.numberInSurah}</p>
+                            <p class="text-muted small fst-italic mt-2">${arabic.surah.number}. ${arabic.surah.englishName}: ${arabic.numberInSurah}</p>
                         </blockquote>
                     `;
                 })

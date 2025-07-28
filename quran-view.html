@@ -45,7 +45,7 @@
             const renderChapter = async () => {
                 const chapterData = result.data[0];
 
-                document.title = `${chapterData.englishName} | ${chapterData.name}`;
+                document.title = `${chapterData.englishName} | ${chapterData.englishNameTranslation}`;
                 document.querySelector(".chapter-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
                 document.getElementById("translation-name").textContent = chapterData.englishNameTranslation;
                 document.getElementById("chapter-number").textContent = toArabicNumber(chapterData.number);

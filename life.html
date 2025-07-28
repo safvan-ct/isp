@@ -14,7 +14,7 @@
 
     <header class="text-white text-center py-3 notranslate">
         <div class="container">
-            <h1 class="m-0 p-0">Life of Muslim</h1>
+            <h1 class="m-0 p-0">മുസ്ലിമിൻ്റെ ജീവിതം</h1>
         </div>
     </header>
 
@@ -46,7 +46,7 @@
         const db = getFirestore(app);
 
         document.addEventListener("DOMContentLoaded", async () => {
-            document.title = "Life of Muslim";
+            document.title = "മുസ്ലിമിൻ്റെ ജീവിതം";
             const lifeList = document.getElementById("life-list");
 
             try {
@@ -55,7 +55,7 @@
 
                 querySnapshot.forEach((doc) => {
                     const life = doc.data();
-                    if (!life.desc) return;
+                    if (!life.desc || life.id != 6) return;
 
                     const lifeItem = `
                     <div class="col-md-4">

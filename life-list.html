@@ -58,8 +58,6 @@
         const db = getFirestore(app);
 
         document.addEventListener("DOMContentLoaded", async () => {
-            document.title = "Life of Muslim";
-
             const idParam = new URLSearchParams(window.location.search).get("id");
             const id = parseInt(idParam);
             const contentList = document.querySelector("#contentList");
@@ -84,9 +82,9 @@
                     const data = docSnap.data();
                     const items = data.ml || [];
 
+                    document.title = "മുസ്ലിമിൻ്റെ ജീവിതം | " + data.ml_title;
                     document.querySelectorAll(".page-title").forEach(el => el.textContent = data.ml_title);
                     document.querySelector("#subtitle").innerHTML = data.sub_title;
-                    document.title = data.ml_title;
 
                     items.forEach((item, index) => {
                         const url = `life-view.html?topic=${id}&id=${index + 1}`;
