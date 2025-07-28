@@ -85,7 +85,7 @@
                     const items = data.ml || [];
 
                     document.querySelectorAll(".page-title").forEach(el => el.textContent = data.ml_title);
-                    document.querySelector("#subtitle").innerHTML = data.desc;
+                    document.querySelector("#subtitle").innerHTML = data.sub_title;
                     document.title = data.ml_title;
 
                     items.forEach((item, index) => {

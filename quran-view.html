@@ -16,9 +16,10 @@
         <div class="index-card">
             <div class="chapter-header mb-3">
                 <div class="chapter-name"></div>
+                <span id="translation-name"></span>
                 <div>
-                    Chapter Number: <strong id="chapter-number"></strong> |
-                    Total Ayahs: <strong id="total-ayahs"></strong>
+                    Chapter: <strong id="chapter-number"></strong> |
+                    Ayahs: <strong id="total-ayahs"></strong>
                 </div>
             </div>
 
@@ -32,58 +33,27 @@
     <script src="assets/js/custom.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             const chapterId = new URLSearchParams(window.location.search).get("chapter");
 
-            const translationUrls = {
-                tr: `https://api.alquran.cloud/v1/surah/${chapterId}/ml.abdulhameed`, // ml.abdulhameed, en.asad, hi.hindi
-                ar: `https://api.alquran.cloud/v1/surah/${chapterId}`,
-            };
+            const res = await fetch(`https://api.alquran.cloud/v1/surah/${chapterId}/editions/quran-uthman,ml.abdulhameed`); // ml.abdulhameed, en.asad, hi.hindi
+            const result = await res.json();
 
-            const getTranslations = async (url) => {
-                try {
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if (data.code === 200) {
-                        return data.data.ayahs;
-                    }
-                } catch (err) {
-                    alert("An error occurred while fetching data.");
-                }
-
-                return []; // fallback
-            };
-
-            const getChapterDetails = async (url) => {
-                try {
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if (data.code === 200) {
-                        return data.data;
-                    }
-                } catch (err) {
-                    alert("An error occurred while fetching data.");
-                }
-
-                return null; // fallback
-            };
+            const arabicAyahs = result.data.filter(surah => surah.edition.language === "ar")[0].ayahs;
+            const mlAyahs = result.data.filter(surah => surah.edition.language === "ml")[0].ayahs;
 
             const renderChapter = async () => {
-                const [translations, chapterData] = await Promise.all([
-                    getTranslations(translationUrls.tr),
-                    getChapterDetails(translationUrls.ar),
-                ]);
+                const chapterData = result.data[0];
 
-                if (!chapterData) return;
-
-                // Title Setup
-                document.querySelector(".chapter-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
                 document.title = `${chapterData.englishName} | ${chapterData.name}`;
+                document.querySelector(".chapter-name").textContent = `${chapterData.englishName} | ${chapterData.name}`;
+                document.getElementById("translation-name").textContent = chapterData.englishNameTranslation;
                 document.getElementById("chapter-number").textContent = toArabicNumber(chapterData.number);
                 document.getElementById("total-ayahs").textContent = toArabicNumber(chapterData.numberOfAyahs);
 
-                chapterData.ayahs.forEach((ayah) => {
-                    const translation = translations.find((a) => a.numberInSurah === ayah.numberInSurah);
+                arabicAyahs.forEach((ayah) => {
+                    const translation = mlAyahs.find((a) => a.numberInSurah === ayah.numberInSurah);
+
                     const html = `
                         <div class="ayah-card">
                             <div class="ayah-arabic">
@@ -109,7 +79,6 @@
             return String(number).split('').map(d => arabicDigits[d]).join('');
         }
     </script>
-
 </body>
 
 </html>

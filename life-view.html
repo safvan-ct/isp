@@ -303,7 +303,13 @@
 
                             ${hadith.hadithArabic ? `<p dir="rtl" class="fs-5 mt-3 notranslate">${hadith.hadithArabic}</p>` : ""}
                             <p class="mt-2">${hadith.hadithEnglish || "<em>No translation available</em>"}</p>
-                            <p class="text-muted small notranslate">Book: ${bookSlug}, Hadith #: ${hadith.hadithNumber}, Status: ${hadith.status || "Unknown"}</p>
+                            <p class="text-muted small notranslate">
+                                ${hadith.book.bookName},
+                                Volume: ${hadith.volume},
+                                Chapter: #${hadith.chapter.chapterNumber} - ${hadith.chapter.chapterEnglish},
+                                Hadith: #${hadith.hadithNumber},
+                                Status: ${hadith.status || "Unknown"}
+                            </p>
                         </blockquote>
                     `).join("");
                 })
