@@ -48,8 +48,9 @@
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title notranslate" id="hadithModalLabel">ഹദീസ് വിവരങ്ങൾ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title notranslate" id="hadithModalLabel">📜 ഹദീസ് വിവരണം</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
 
                 <div id="google_translate_element" class="mt-2 text-center mb-2"></div>
@@ -67,8 +68,9 @@
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title notranslate" id="quranModalLabel">ഖുർആൻ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title notranslate" id="quranModalLabel">📖 ഖുർആൻ നിർദ്ദേശം</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body" id="quranModalBody">
@@ -236,7 +238,7 @@
                                     <blockquote class="mb-0 mt-1" onclick="viewHadith('${book_slug}', ${hadith_number})" style="cursor: pointer;">
                                         ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                         ${text} 
-                                        ${reference ? `<br><span class="text-muted small fst-italic"><i class="bi bi-file-text"></i> ${reference}</span>` : ""}
+                                        ${reference ? `<br><span class="text-muted small fst-italic">🔖 ${reference}</span>` : ""}
                                     </blockquote>`;
                             });
                         }
@@ -247,13 +249,17 @@
                                 <blockquote class="m-0" onclick="viewQuran(${sura}, ${ayah})" style="cursor: pointer;">
                                     ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
                                     ${text} 
-                                    ${reference ? `<br><span class="text-muted small fst-italic"><i class="bi bi-file-text"></i> ${reference}</span>` : ""}
+                                    ${reference ? `<br><span class="text-muted small fst-italic">🔖 ${reference}</span>` : ""}
                                 </blockquote>`;
                             });
                         }
 
                         if (youtube) {
-                            html += `<button class="btn btn-primary ms-3" onclick="openYoutube('${youtube}')">🎥 Video കാണുക</button>`;
+                            html += `<div class="mt-3 text-center">
+                                    <button class="btn btn-outline-primary" onclick="openYoutube('${youtube}')">
+                                        🎥 വീഡിയോ കാണുക
+                                    </button>
+                                </div>`;
                         }
 
                         html += `</div>`;
@@ -294,13 +300,13 @@
                     modalBody.innerHTML = hadiths.map(hadith => `
                         <blockquote class="border-start ps-3 mb-3">
                             ${hadith.headingArabic ? `
-                                <p class="notranslate fw-bold fs-6 m-0" dir="rtl">${hadith.headingArabic}</p>
-                                <p class="fw-bold fs-6">${hadith.headingEnglish || ""}</p>` : ""}
+                                <p class="notranslate fw-bold m-0 fs-5" dir="rtl">${hadith.headingArabic}</p>
+                                <p class="fw-bold">${hadith.headingEnglish || ""}</p>` : ""}
 
-                            ${hadith.hadithArabic ? `<p dir="rtl" class="fs-6 mt-1 notranslate">${hadith.hadithArabic}</p>` : ""}
+                            ${hadith.hadithArabic ? `<p dir="rtl" class="fs-5 mt-1 notranslate">${hadith.hadithArabic}</p>` : ""}
                             <p class="mt-1">${hadith.hadithEnglish || "<em>No translation available</em>"}</p>
                             <p class="text-muted small notranslate mt-2 fst-italic">
-                                ${hadith.book.bookName},
+                                🔖 ${hadith.book.bookName},
                                 Volume: ${hadith.volume},
                                 Chapter: #${hadith.chapter.chapterNumber} - ${hadith.chapter.chapterEnglish},
                                 Hadith: #${hadith.hadithNumber},
@@ -341,7 +347,9 @@
                         <blockquote class="border-start ps-3 mb-3 notranslate">
                             <p dir="rtl" class="fs-5 mt-3 quran-text" style="line-height: 2.2;">${arabic.text}</p>
                             <p class="mt-2">${malayalam.text || "<em>No translation available</em>"}</p>
-                            <p class="text-muted small fst-italic mt-2">${arabic.surah.number}. ${arabic.surah.englishName}: ${arabic.numberInSurah}</p>
+                            <p class="text-muted small fst-italic mt-2">
+                                🔖 ${arabic.surah.number}. ${arabic.surah.englishName}: ${arabic.numberInSurah}
+                            </p>
                         </blockquote>
                     `;
                 })

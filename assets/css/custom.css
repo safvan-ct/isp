@@ -256,6 +256,19 @@ ul.step-list li {
     border-color: #2c182a;
 }
 
+.btn-outline-primary {
+    color: #4E2D45;
+    border-color: #4E2D45;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.show>.btn-outline-primary.dropdown-toggle {
+    background-color: #4E2D45;
+    border-color: #4E2D45;
+}
+
 .view-btn {
     font-size: 1.4rem;
     color: #4E2D45;
@@ -287,6 +300,11 @@ ul.step-list li {
 
 .breadcrumb-item.active {
     color: #a58c97 !important;
+}
+
+.modal-header {
+    background-color: #4E2D45;
+    color: #EADDC4;
 }
 
 @media (max-width: 768px) {
