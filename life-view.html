@@ -170,22 +170,22 @@
                 6: "death"
             };
 
-            if (!id || isNaN(id) || !topicId || isNaN(topicId)) {
+            if (isNaN(id) || !topicId || isNaN(topicId)) {
                 contentContainer.innerHTML = `<div class="text-danger text-center">തെറ്റായ ID ലഭിച്ചു.</div>`;
                 if (loader) loader.style.display = "none";
                 return;
             }
 
             try {
-                const qry = query(collection(db, "life_of_muslim"), where("id", "==", topicId));
-                const qrySnapshot = await getDocs(qry);
+                const lifeOfMuslim = query(collection(db, "life_of_muslim"), where("id", "==", topicId));
+                const lifeOfMuslimSnapshot = await getDocs(lifeOfMuslim);
 
-                if (qrySnapshot.empty) {
+                if (lifeOfMuslimSnapshot.empty) {
                     contentContainer.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലഭിച്ചില്ല.</div>`;
                     return;
                 }
 
-                qrySnapshot.forEach((docSnap) => {
+                lifeOfMuslimSnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
 
                     docTitle = "മുസ്ലിമിൻ്റെ ജീവിതം | " + data.ml_title;
@@ -232,6 +232,17 @@
                             html += `<ol>${orderdList.map(item => `<li>${item}</li>`).join('')}</ol>`;
                         }
 
+                        if (quran.length) {
+                            quran.forEach(({ ar = "", text = "", reference = "", sura = "", ayah = "" }) => {
+                                html += `
+                                <blockquote class="m-0 mt-1" onclick="viewQuran(${sura}, ${ayah})" style="cursor: pointer;">
+                                    ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
+                                    ${text} 
+                                    ${reference ? `<br><span class="text-muted small fst-italic">🔖 ${reference}</span>` : ""}
+                                </blockquote>`;
+                            });
+                        }
+
                         if (hadiths.length) {
                             hadiths.forEach(({ ar = "", text = "", reference = "", book_slug = "", hadith_number = "" }) => {
                                 html += `
@@ -240,17 +251,6 @@
                                         ${text} 
                                         ${reference ? `<br><span class="text-muted small fst-italic">🔖 ${reference}</span>` : ""}
                                     </blockquote>`;
-                            });
-                        }
-
-                        if (quran.length) {
-                            quran.forEach(({ ar = "", text = "", reference = "", sura = "", ayah = "" }) => {
-                                html += `
-                                <blockquote class="m-0" onclick="viewQuran(${sura}, ${ayah})" style="cursor: pointer;">
-                                    ${ar ? `<p dir="rtl" class="quran-text">${ar}</p>` : ""}
-                                    ${text} 
-                                    ${reference ? `<br><span class="text-muted small fst-italic">🔖 ${reference}</span>` : ""}
-                                </blockquote>`;
                             });
                         }
 

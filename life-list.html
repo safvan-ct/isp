@@ -51,6 +51,7 @@
             collection,
             getDocs,
             query,
+            orderBy,
             where
         } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
@@ -62,6 +63,9 @@
             const id = parseInt(idParam);
             const contentList = document.querySelector("#contentList");
             const loader = document.getElementById("pageLoader");
+            const fs_db = {
+                6: "death"
+            };
 
             if (!id || isNaN(id)) {
                 contentList.innerHTML = `<div class="text-danger text-center">തെറ്റായ ID ലഭിച്ചു.</div>`;
@@ -70,7 +74,22 @@
             }
 
             try {
-                const q = query(collection(db, "life_of_muslim"), where("id", "==", id));
+                const lifeOfMuslim = query(collection(db, "life_of_muslim"), where("id", "==", id));
+                const lifeOfMuslimSnapshot = await getDocs(lifeOfMuslim);
+                if (lifeOfMuslimSnapshot.empty) {
+                    contentList.innerHTML = `<div class="text-warning text-center">ഡാറ്റ ലഭിച്ചില്ല.11</div>`;
+                    return;
+                }
+
+                lifeOfMuslimSnapshot.forEach((docSnap) => {
+                    const topic = docSnap.data();
+
+                    document.title = "മുസ്ലിമിൻ്റെ ജീവിതം | " + topic.ml_title;
+                    document.querySelectorAll(".page-title").forEach(el => el.textContent = topic.ml_title);
+                    document.querySelector("#subtitle").innerHTML = topic.sub_title;
+                });
+
+                const q = query(collection(db, fs_db[id]), orderBy("id", "asc"));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
@@ -78,28 +97,22 @@
                     return;
                 }
 
+                let i = 1;
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
-                    const items = data.ml || [];
+                    const url = `life-view.html?topic=${id}&id=${data.id}`;
 
-                    document.title = "മുസ്ലിമിൻ്റെ ജീവിതം | " + data.ml_title;
-                    document.querySelectorAll(".page-title").forEach(el => el.textContent = data.ml_title);
-                    document.querySelector("#subtitle").innerHTML = data.sub_title;
-
-                    items.forEach((item, index) => {
-                        const url = `life-view.html?topic=${id}&id=${index + 1}`;
-
-                        contentList.insertAdjacentHTML("beforeend", `
-                            <div class="guide-card mb-2">
-                                <a href="${url}" class="guide-title text-decoration-none">
-                                    <span class="guide-number m-0">${index + 1}</span> - ${item}
-                                </a>
-                                <a href="${url}" class="view-btn"><i class="bi bi-arrow-right-circle-fill"></i></a>
-                            </div>
-                        `);
-                    });
+                    contentList.insertAdjacentHTML("beforeend", `
+                        <div class="guide-card mb-2">
+                            <a href="${url}" class="guide-title text-decoration-none">
+                                <span class="guide-number m-0">${i++}</span> - ${data.title}
+                            </a>
+                            <a href="${url}" class="view-btn"><i class="bi bi-arrow-right-circle-fill"></i></a>
+                        </div>
+                    `);
                 });
             } catch (error) {
+                console.error(error);
                 contentList.innerHTML = `<div class="text-danger text-center">ഡാറ്റ ലോഡ് ചെയ്യാനാകുന്നില്ല.</div>`;
             } finally {
                 if (loader) loader.style.display = "none";
